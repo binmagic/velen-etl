@@ -9,7 +9,7 @@
 		<relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;
 	</parent>-->
 
-	<groupId>com.velen.etl</groupId>
+	<groupId>com.github.binmagic</groupId>
 	<artifactId>velen-etl-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>velen-etl</name>
