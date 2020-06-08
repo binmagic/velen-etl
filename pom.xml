@@ -10,7 +10,7 @@
 	</parent>-->
 
 	<groupId>com.velen.etl</groupId>
-	<artifactId>etl-parent</artifactId>
+	<artifactId>velen-etl-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>velen-etl</name>
 	<description>ETL project for Spring Boot</description>
@@ -39,11 +39,10 @@
 	</licenses>
 
 	<modules>
-		<module>velen-etl-extract-stream</module>
 		<module>velen-etl-generator</module>
 		<module>velen-etl-stream</module>
-		<module>velen-etl-task</module>
 		<module>velen-etl-common</module>
+		<module>velen-etl-task</module>
 	</modules>
 
 	<properties>
@@ -57,6 +56,13 @@
 		<spring.boot.version>2.2.5.RELEASE</spring.boot.version>
 		<lombok.version>1.18.12</lombok.version>
 
+
+		<jacoco.outputDir>${project.basedir}/target</jacoco.outputDir>
+		<jacoco.out.it.file>jacoco-it.exec</jacoco.out.it.file>
+		<sonar.host.url>http://192.168.1.210:9002</sonar.host.url>
+		<sonar.java.binaries>target/classes</sonar.java.binaries>
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.jacoco.reportPaths>${jacoco.outputDir}/${jacoco.out.it.file}</sonar.jacoco.reportPaths>
 
 		<!-- 放在哪不确定 -->
 		<etl.generator.version>0.0.1-SNAPSHOT</etl.generator.version>
@@ -111,6 +117,8 @@
 					<artifactId>kotlin-maven-plugin</artifactId>
 					<version>${kotlin.version}</version>
 				</plugin>-->
+
+				<!-- compiler -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
@@ -126,6 +134,42 @@
 					<artifactId>git-commit-id-plugin</artifactId>
 					<version>4.0.0</version>
 				</plugin>
+
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${jacoco-maven-plugin.version}</version>
+					<configuration>
+						<skip>${skipJacoco}</skip>
+						<destFile>${sonar.jacoco.reportPaths}</destFile>
+						<propertyName>jacoco.agent.ut.arg</propertyName>
+						<append>true</append>
+					</configuration>
+					<executions>
+						<execution>
+							<id>pre-unit-test</id>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!-- maven编译取消test测试 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.22.2</version>
+					<configuration>
+						<argLine>${jacoco.agent.ut.arg} --add-opens java.base/jdk.internal.loader=ALL-UNNAMED
+							-Dco.paralleluniverse.fibers.DefaultFiberPool.monitor=NONE -Dstorm.util.debug.check=true
+							--add-opens java.base/jdk.internal.misc=ALL-UNNAMED --add-opens
+							java.base/java.lang=ALL-UNNAMED -Dco.paralleluniverse.fibers.verifyInstrumentation=true
+						</argLine>
+						<skip>${skipTests}</skip>
+					</configuration>
+				</plugin>
+
 			</plugins>
 		</pluginManagement>
 
@@ -203,7 +247,77 @@
 					<target>${maven.compiler.target}</target>
 				</configuration>
 			</plugin>
+
+			<!-- maven编译取消test测试 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<!--不同环境Profile的唯一id-->
+			<id>dev</id>
+			<properties>
+				<!--profiles.active是自定义的字段（名字随便起），自定义字段可以有多个-->
+				<profiles.active>dev</profiles.active>
+				<skipSecurity>true</skipSecurity>
+				<skipJavadoc>false</skipJavadoc>
+				<skipSource>false</skipSource>
+				<skipTests>true</skipTests>
+				<skipJacoco>true</skipJacoco>
+				<skipSonar>true</skipSonar>
+				<coverOriginal>false</coverOriginal>
+				<enableInstrument>true</enableInstrument>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>release</id>
+			<properties>
+				<profiles.active>release</profiles.active>
+				<skipSecurity>false</skipSecurity>
+				<skipJavadoc>true</skipJavadoc>
+				<skipSource>true</skipSource>
+				<skipTests>true</skipTests>
+				<skipJacoco>true</skipJacoco>
+				<skipSonar>true</skipSonar>
+				<coverOriginal>false</coverOriginal>
+				<enableInstrument>true</enableInstrument>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<profiles.active>test</profiles.active>
+				<skipSecurity>true</skipSecurity>
+				<skipJavadoc>true</skipJavadoc>
+				<skipSource>true</skipSource>
+				<skipTests>false</skipTests>
+				<skipJacoco>false</skipJacoco>
+				<skipSonar>false</skipSonar>
+				<coverOriginal>false</coverOriginal>
+				<enableInstrument>true</enableInstrument>
+			</properties>
+		</profile>
+		<profile>
+			<id>release-stress</id>
+			<properties>
+				<profiles.active>release</profiles.active>
+				<skipSecurity>false</skipSecurity>
+				<skipJavadoc>true</skipJavadoc>
+				<skipSource>true</skipSource>
+				<skipTests>true</skipTests>
+				<skipJacoco>true</skipJacoco>
+				<skipSonar>true</skipSonar>
+				<coverOriginal>false</coverOriginal>
+				<enableInstrument>false</enableInstrument>
+			</properties>
+		</profile>
+	</profiles>
 
 </project>

@@ -12,6 +12,6 @@ import verification.entity.VerifyEnum;
 @AllArgsConstructor
 public class ParseFormatTDO
 {
-	private VerifyEnum.ParseType parseType;
+	private VerifyEnum.InputParseType inputParseType;
 	private String formula;
 }

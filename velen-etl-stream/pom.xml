@@ -3,9 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-		<artifactId>etl-parent</artifactId>
+		<artifactId>velen-etl-parent</artifactId>
 		<groupId>com.velen.etl</groupId>
 		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
@@ -15,6 +16,7 @@
 	<modules>
 		<module>velen-etl-verification-api</module>
 		<module>velen-etl-verification-service</module>
+		<module>velen-etl-parse-stream</module>
 	</modules>
 
 	<properties>
