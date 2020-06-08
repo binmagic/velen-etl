@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>velen-etl-generator</artifactId>
 		<groupId>com.github.binmagic</groupId>
-		<version>0.0.1</version>
+		<version>0.0.2-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -33,7 +33,7 @@
 		<connection>scm:git:git@github.com:binmagic/velen-etl.git</connection>
 		<developerConnection>scm:git:git@github.com:binmagic/velen-etl.git</developerConnection>
 		<url>https://github.com/binmagic/velen-etl</url>
-	  <tag>velen-etl-parent-0.0.1</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<dependencies>

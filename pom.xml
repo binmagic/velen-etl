@@ -10,7 +10,7 @@
 
 	<groupId>com.github.binmagic</groupId>
 	<artifactId>velen-etl-parent</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>velen-etl</name>
 	<description>ETL project for Spring Boot</description>
 	<packaging>pom</packaging>
@@ -20,7 +20,7 @@
 		<connection>scm:git:git@github.com:binmagic/velen-etl.git</connection>
 		<developerConnection>scm:git:git@github.com:binmagic/velen-etl.git</developerConnection>
 		<url>https://github.com/binmagic/velen-etl</url>
-	  <tag>velen-etl-parent-0.0.1</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<distributionManagement>
