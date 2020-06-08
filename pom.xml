@@ -17,6 +17,12 @@
 	<packaging>pom</packaging>
 	<url>https://github.com/binmagic/velen-etl</url>
 
+	<scm>
+		<connection>scm:git:git@github.com:binmagic/velen-etl.git</connection>
+		<developerConnection>scm:git:git@github.com:binmagic/velen-etl.git</developerConnection>
+		<url>https://github.com/binmagic/velen-etl</url>
+	</scm>
+
 	<distributionManagement>
 		<snapshotRepository>
 			<id>nexus-snapshot</id>
