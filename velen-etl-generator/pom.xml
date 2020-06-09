@@ -4,20 +4,32 @@
 		<artifactId>velen-etl-parent</artifactId>
 		<groupId>com.github.binmagic</groupId>
 		<version>0.0.2-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
+		<relativePath>..</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>velen-etl-generator</artifactId>
 	<packaging>pom</packaging>
+
 	<modules>
 		<module>velen-etl-generator-api</module>
 		<module>velen-etl-generator-service</module>
+		<module>velen-etl-generator-server</module>
 	</modules>
 
-	<properties>
-		<etl.generator.version>0.0.1-SNAPSHOT</etl.generator.version>
-	</properties>
-
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.velen.etl</groupId>
+				<artifactId>velen-etl-generator-api</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.velen.etl</groupId>
+				<artifactId>velen-etl-generator-service</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 </project>

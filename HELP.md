@@ -70,7 +70,7 @@ https://www.cnblogs.com/flypig666/p/11729757.html
 
 Q: 服务器间如何定交互接口
 Q: 服务如何部署
-Q: 服务器的异常如何处理（发生异常如何写，service 的之类的）
+Q: 服务器的异常如何处理（发生异常如何写，com.velen.etl.stream.service 的之类的）
 A:
 Q: yarn, flink 的地址配置？
 Q: 使用组件的规定
@@ -89,7 +89,7 @@ Q:
 | 配置项 | 键 | 默认值 | 描述 |
 | --- | --- | --- | --- |
 | 服务器地址 | spring.cloud.nacos.discovery.server-addr |  | nacos注册中心地址 |
-| 服务名 | spring.cloud.nacos.discovery.service | spring.application.name | 服务名 |
+| 服务名 | spring.cloud.nacos.discovery.com.velen.etl.stream.service | spring.application.name | 服务名 |
 | 权重 | spring.cloud.nacos.discovery.weight | 1 | 值从1到100，值越大，重量越大 |
 | IP | spring.cloud.nacos.discovery.ip |  | ip address to registry，最高优先级 |
 | 网络接口 | spring.cloud.nacos.discovery.network-interface |  | 未配置IP时，注册的IP地址为网络接口对应的IP地址。如果未配置此项，则默认采用第一个网络接口的地址。 |

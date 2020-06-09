@@ -4,7 +4,7 @@
 		<artifactId>velen-etl-parent</artifactId>
 		<groupId>com.github.binmagic</groupId>
 		<version>0.0.2-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
+		<relativePath>..</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
@@ -17,17 +17,12 @@
 		<module>velen-etl-parse-stream</module>
 	</modules>
 
-	<properties>
-		<etl.stream.version>0.0.2-SNAPSHOT</etl.stream.version>
-	</properties>
-
-
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>com.github.binmagic</groupId>
 				<artifactId>velen-etl-verification-api</artifactId>
-				<version>${etl.stream.version}</version>
+				<version>${project.parent.version}</version>
 			</dependency>
 
 		</dependencies>
