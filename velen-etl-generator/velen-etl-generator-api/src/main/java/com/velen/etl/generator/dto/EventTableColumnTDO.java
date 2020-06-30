@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 @Data
 @Builder
 @NoArgsConstructor
@@ -18,7 +19,8 @@ public class EventTableColumnTDO
 	String name;
 	GenerateEnum.DataType type;
 	// 额外类型数据
-	List<EventTableColumnTDO> extraTypeDataList = new ArrayList<>();
-	boolean primary = false;
+	List<EventTableColumnTDO> extraTypeDataList;
+	boolean primary;
 	String comment;
+	int index;
 }

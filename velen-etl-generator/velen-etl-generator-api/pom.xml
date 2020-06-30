@@ -14,10 +14,6 @@
 
 	<description>etl generator api.</description>
 
-	<properties>
-		<maven.deploy.skip>false</maven.deploy.skip>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>

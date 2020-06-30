@@ -1,12 +1,15 @@
 package com.velen.etl.generator.api;
 
 import com.velen.etl.generator.dto.EventTableTDO;
+import com.velen.etl.generator.dto.TableDescTDO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 
+@Deprecated
 @FeignClient("velen-etl-generator")
 public interface EventTableApi
 {
@@ -48,8 +51,9 @@ public interface EventTableApi
 
 	/**
 	 * 数据同步
+	 * @param reload true: 加载所有，false：新创建的
 	 */
 	@PostMapping("/event/generator/synchronize")
-	void synchronize();
+	List<TableDescTDO> synchronize(@RequestParam("appId") String appId, @RequestParam("reload") Boolean reload, @RequestParam("operator") String operator);
 
 }

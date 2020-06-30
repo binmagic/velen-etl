@@ -1,0 +1,41 @@
+#middleware:
+# host: localhost
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.1.85:8848
+      config:
+        file-extension: yml
+        server-addr: 192.168.1.85:8848
+        enable-remote-sync-config: true
+        #namespace: 11111
+      #        prefix: test
+  data:
+    mongodb:
+      database: velen-etl-project
+      host: 192.168.1.85
+      port: 27017
+      #username: root
+      #password: 123456
+
+
+
+#    sentinel:
+#      transport:
+#        dashboard: ${SENTINEL_DASHBOARD_HOST:localhost}:${SENTINEL_DASHBOARD_PORT:8021}
+#    bus:
+#      trace:
+#        enabled: true
+
+
+# YAML表示
+#-
+#  id: 1
+#  name: huang
+#-
+#  id: 2
+#  name: liao
+# 对应Json表示
+#  [ { id: 1, name: 'huang' }, { id: 2, name: 'liao' } ]

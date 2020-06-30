@@ -1,0 +1,32 @@
+#middleware:
+# host: localhost
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.1.85:8848
+      config:
+        file-extension: yml
+        server-addr: 192.168.1.85:8848
+        enable-remote-sync-config: true
+        #namespace: 11111
+        max-retry: 30
+        prefix: demo-source
+
+    stream:
+      kafka:
+        binder:
+          brokers: 192.168.1.29:9092
+          auto-create-topics: true
+      bindings:
+        input:
+          destination: stream-demo-trans
+          content-type: text/plain
+        output:
+          destination: stream-demo # kafka topic
+          content-type: text/plain
+        my-input:
+          destination: stream-demo
+        my-output:
+          destination: stream-demo-trans

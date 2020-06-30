@@ -1,18 +1,5 @@
 # Getting Started
 
-### Reference Documentation
-For further reference, please consider the following sections:
-
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.3.0.RELEASE/maven-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.3.0.RELEASE/maven-plugin/reference/html/#build-image)
-* [Cloud Bootstrap](https://spring.io/projects/spring-cloud-commons)
-* [Function](https://cloud.spring.io/spring-cloud-function/)
-
-### Additional Links
-These additional references should also help you:
-
-* [Various sample apps using Spring Cloud Function](https://github.com/spring-cloud/spring-cloud-function/tree/master/spring-cloud-function-samples)
 
 
 
@@ -83,6 +70,22 @@ Q:
 - application.yml 文件主要配置第三方连接及配置信息。
 - bootstrap.yml 文件主要配置服务基本信息（端口，服务名称），注册中心地址等。
 ------------------------------------------------------------------------------------------------------------------------
++##组件
++｜ 组件类型 | 组件 |
++| --- | --- |
++|
+
+------------------------------------------------------------------------------------------------------------------------
+##MAVE发布
+### SNAPSHOT
+'''
+mvn clean deploy
+'''
+### RELEASE
+'''
+'''
+
+
 
 ------------------------------------------------------------------------------------------------------------------------
 ## nacos 配置
@@ -102,4 +105,31 @@ Q:
 | 端点 | spring.cloud.nacos.discovery.endpoint |  | 服务的域名，通过该域名可以动态获取服务器地址。 |
 | 集成功能区 | ribbon.nacos.enabled |  true | |
 | --- | --- | --- | --- |
+------------------------------------------------------------------------------------------------------------------------
+
+### dataflow
+
+java -Dserver.port=8123 \
+     -Dhttp.path-pattern=/data \
+     -Dspring.cloud.stream.bindings.output.destination=sensorData \
+     -jar http-source-rabbit-1.3.1.RELEASE.jar
+
+java -Dserver.port=8090 \
+ -Dspring.cloud.stream.bindings.input.destination=sensorData \
+ -Dspring.cloud.stream.bindings.output.destination=normalizedSensorData \
+ -jar transformer-0.0.1-SNAPSHOT.jar
+
+java -Dlog.level=WARN \
+     -Dspring.cloud.stream.bindings.input.destination=normalizedSensorData \
+     -jar log-sink-rabbit-1.3.1.RELEASE.jar
+
+
+stream create --name httpIngest --definition "http --server.port=8123 --path-pattern=/data | transformer --server.port=8090 | log --level=WARN" --deploy
+
+------------------------------------------------------------------------------------------------------------------------
+
+### auto configuration 如何实现的
+
+
+
 ------------------------------------------------------------------------------------------------------------------------

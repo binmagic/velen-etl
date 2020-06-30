@@ -33,6 +33,7 @@ interface CustomFileFormat
 	String outputFormat();
 }
 
+@Deprecated
 enum StoredType implements CustomFileFormat
 {
 	SEQUENCEFILE("org.apache.hadoop.mapred.SequenceFileInputFormat", "org.apache.hadoop.mapred.SequenceFileOutputFormat"),

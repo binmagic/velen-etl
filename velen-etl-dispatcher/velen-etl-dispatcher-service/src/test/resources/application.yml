@@ -1,0 +1,50 @@
+#server:
+#  port: 8861
+
+#spring:
+#  application:
+#    name: test
+#  mongodb:
+#    uri: mongodb://name:password@localhost:27017/test
+
+  cloud:
+    dataflow:
+      client:
+        server-uri: http://192.168.1.30:9393
+
+
+
+# input.parse
+# input.field
+project:
+  topic: xxxxx
+  verify: false
+  formats:
+    - type: JSON
+      formula: ssss
+    - type: REGEX
+      formula: sssss
+  fields:
+    - name: assss
+      type: JSON
+      key-rule: ssss
+      value-rule: ssss
+    - name: dddd
+      type: JSON
+      key-rule: bbbb
+      value-rule: 4444
+
+
+# dispatch.dataflow
+dispatcher:
+  dataflow:
+    uri: http://192.168.1.30:9393
+    repository: file://root/scdf/
+    apps:
+      - 1.jar
+      - 2.jar
+      - 3.jar
+    definitions:
+      test: http | log
+
+# client.dataflow

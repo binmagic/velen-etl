@@ -1,0 +1,17 @@
+input:
+  parse:
+    formats:
+      - type: JSON
+        formula: ssss
+      - type: REGEX
+        formula: sssss
+  field:
+    rules:
+      - name: assss
+        type: JSON
+        key: ssss
+        value: ssss
+      - name: dddd
+        type: JSON
+        key: bbbb
+        value: 4444

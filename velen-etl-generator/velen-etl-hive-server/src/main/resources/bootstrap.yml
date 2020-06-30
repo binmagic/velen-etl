@@ -1,0 +1,17 @@
+#middleware:
+# host: localhost
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.1.85:8848
+      config:
+        file-extension: yml
+        server-addr: 192.168.1.85:8848
+        enable-remote-sync-config: true
+        #namespace: 11111
+      #        prefix: test
+
+
+

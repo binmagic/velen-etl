@@ -1,0 +1,47 @@
+{
+  "groups": [
+    {
+      "name": "clean",
+      "type": "etl.dmt.quick.unpackprocessorkafka.config.UnpackProperties",
+      "sourceType": "etl.dmt.quick.unpackprocessorkafka.config.UnpackProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "clean.corePoolSize",
+      "type": "java.lang.Integer",
+      "description": "核心线程数，包括空闲线程",
+      "sourceType": "etl.dmt.quick.unpackprocessorkafka.config.UnpackProperties",
+      "defaultValue": 10
+    },
+    {
+      "name": "clean.keepAliveSeconds",
+      "type": "java.lang.Integer",
+      "description": "线程池维护线程所允许的空闲时间",
+      "sourceType": "etl.dmt.quick.unpackprocessorkafka.config.UnpackProperties",
+      "defaultValue": 3
+    },
+    {
+      "name": "clean.maxPoolSize",
+      "type": "java.lang.Integer",
+      "description": "最大线程数",
+      "sourceType": "etl.dmt.quick.unpackprocessorkafka.config.UnpackProperties",
+      "defaultValue": 10
+    },
+    {
+      "name": "clean.queueCapacity",
+      "type": "java.lang.Integer",
+      "description": "线程池所使用的缓冲队列",
+      "sourceType": "etl.dmt.quick.unpackprocessorkafka.config.UnpackProperties",
+      "defaultValue": 10000
+    },
+    {
+      "name": "clean.rejectedExecutionHandler",
+      "type": "java.lang.String",
+      "description": "线程池对拒绝任务的处理策略",
+      "sourceType": "etl.dmt.quick.unpackprocessorkafka.config.UnpackProperties",
+      "defaultValue": "java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy"
+    }
+  ],
+  "hints": []
+}

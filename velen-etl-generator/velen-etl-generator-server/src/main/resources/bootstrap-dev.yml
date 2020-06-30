@@ -1,0 +1,49 @@
+
+server:
+  port: 9002
+spring:
+  devtools:
+    restart:
+      enabled: true
+  profiles:
+    active: dev
+
+  cloud:
+    nacos:
+      discovery:
+        metadata:
+          group: velen-etl-group
+          version: 1.0
+        server-addr: 192.168.1.85:8848
+      config:
+        server-addr: 192.168.1.85:8848
+        file-extension: yml
+        enable-remote-sync-config: true
+
+  data:
+    mongodb:
+      database: velen-etl-project
+      host: 192.168.1.85
+      port: 27017
+
+datasource:
+  hive:
+    url: jdbc:hive2://119.254.118.20:10000/default
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+    #      password: sixmonth
+    driver-class-name: org.apache.hive.jdbc.HiveDriver
+    initial-size: 1
+    min-idle: 1
+    max-idle: 5
+    max-active: 50
+    max-wait: 10000
+    time-between-eviction-runs-millis: 10000
+    min-evictable-idle-time-millis: 300000
+    validation-query: select 'x'
+    test-while-idle: true
+    test-on-borrow: false
+    test-on-return: false
+    pool-prepared-statements: true
+    max-open-prepared-statements: 20
+    filters: stat

@@ -1,0 +1,12 @@
+server:
+  port: 8866
+
+spring:
+  application:
+    name: demo-source
+
+project:
+  topic: 111
+  verify: false
+  data-Id: demo-source
+  group: DEFAULT_GROUP

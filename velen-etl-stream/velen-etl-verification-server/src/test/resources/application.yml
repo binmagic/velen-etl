@@ -1,0 +1,30 @@
+server:
+  port: 8861
+
+spring:
+  application:
+    name: velen-etl-verification
+#  mongodb:
+#    uri: mongodb://name:password@localhost:27017/test
+
+
+project:
+  verify: false
+  formats:
+    - type: JSON
+      formula: ssss
+    - type: REGEX
+      formula: sssss
+  fields:
+    - name: assss
+      type: JSON
+      key-rule: ssss
+      value-rule: ssss
+    - name: dddd
+      type: JSON
+      key-rule: bbbb
+      value-rule: 4444
+
+
+
+

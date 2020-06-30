@@ -15,17 +15,22 @@
 		<module>velen-etl-generator-api</module>
 		<module>velen-etl-generator-service</module>
 		<module>velen-etl-generator-server</module>
+		<module>velen-etl-hive-server</module>
 	</modules>
+
+	<properties>
+		<maven.deploy.skip>true</maven.deploy.skip>
+	</properties>
 
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>com.velen.etl</groupId>
+				<groupId>com.github.binmagic</groupId>
 				<artifactId>velen-etl-generator-api</artifactId>
 				<version>${project.parent.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.velen.etl</groupId>
+				<groupId>com.github.binmagic</groupId>
 				<artifactId>velen-etl-generator-service</artifactId>
 				<version>${project.parent.version}</version>
 			</dependency>

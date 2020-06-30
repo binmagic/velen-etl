@@ -1,0 +1,28 @@
+
+server:
+  port: 9001
+spring:
+  devtools:
+    restart:
+      enabled: true
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        #metadata:
+        #  group: velen-etl-group
+        #  version: 1.0
+        #server-addr: 192.168.1.85:8848
+        server-addr: 192.168.1.85:8848
+      config:
+        server-addr: 192.168.1.85:8848
+        file-extension: yml
+        enable-remote-sync-config: true
+
+    dataflow:
+      client:
+        server-uri: http://192.168.1.30:9393
+
+jwt:
+  token_secret: pXFb4i%*834gfdh96(3df&%18iodGq4ODQyMzc4lz7yI6ImF1dG

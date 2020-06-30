@@ -1,0 +1,88 @@
+#middleware:
+# host: localhost
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.1.85:8848
+      config:
+        file-extension: yml
+        server-addr: 192.168.1.85:8848
+        enable-remote-sync-config: true
+        #namespace: 11111
+      #        prefix: test
+
+    stream:
+      kafka:
+        binder:
+          brokers: 192.168.1.29:9092
+          auto-create-topics: true
+          transaction:
+            producer:
+              compression-type: none
+      bindings:
+        input:
+          destination: stream-demo
+          content-type: text/plain
+        output:
+          destination: stream-demo # kafka topic
+          content-type: text/plain
+#        my-input:
+#          destination: stream-demo
+#        my-output:
+#          destination: stream-demo-trans
+
+#        aaa:
+#          destination: xxxx
+#          group: 1
+#          contentType: xxxx
+#          binder: fa
+
+
+      #spring:
+#  application:
+#    name: etl-verfication
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 192.168.1.85:8848
+      #  server-addr: ${REGISTER_HOST:localhost}:${REGISTER_PORT:8848}
+      #config:
+      #  server-addr: ${REGISTER_HOST:localhost}:${REGISTER_PORT:8848}
+      #  file-extension: yml
+
+#    sentinel:
+#      transport:
+#        dashboard: ${SENTINEL_DASHBOARD_HOST:localhost}:${SENTINEL_DASHBOARD_PORT:8021}
+#    bus:
+#      trace:
+#        enabled: true
+
+#spring:
+#  application:
+#    name: etl-verfication
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 192.168.1.85:8848
+#      config:
+#        file-extension: yaml
+#        server-addr: 192.168.1.85:8848
+
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'
+
+
+# YAML表示
+#-
+#  id: 1
+#  name: huang
+#-
+#  id: 2
+#  name: liao
+# 对应Json表示
+#  [ { id: 1, name: 'huang' }, { id: 2, name: 'liao' } ]

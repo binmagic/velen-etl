@@ -36,6 +36,10 @@
 		<module>velen-etl-stream</module>
 		<module>velen-etl-common</module>
 		<module>velen-etl-task</module>
+		<module>velen-etl-dispatcher</module>
+		<module>velen-etl-dataflow-collection</module>
+		<module>velen-etl-configuration</module>
+		<module>velen-etl-api</module>
 	</modules>
 
 	<properties>
@@ -43,13 +47,18 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<maven.deploy.skip>true</maven.deploy.skip>
+		<!--<maven.deploy.skip>false</maven.deploy.skip>-->
 
 		<spring.cloud.alibaba.dependencies.version>2.2.1.RELEASE</spring.cloud.alibaba.dependencies.version>
 		<spring.cloud.dependencies.version>Hoxton.SR3</spring.cloud.dependencies.version>
 		<spring.boot.version>2.2.5.RELEASE</spring.boot.version>
-		<lombok.version>1.18.12</lombok.version>
+		<spring.boot.admin.version>2.2.2</spring.boot.admin.version>
 
+		<spring.data.hadoop.version>2.5.0.RELEASE</spring.data.hadoop.version>
+
+		<kotlin.version>1.3.72</kotlin.version>
+		<kotlinx-coroutines.version>1.3.6</kotlinx-coroutines.version>
+		<reactor-kotlin-extensions.version>1.0.2.RELEASE</reactor-kotlin-extensions.version>
 
 		<jacoco.outputDir>${project.basedir}/target</jacoco.outputDir>
 		<jacoco.out.it.file>jacoco-it.exec</jacoco.out.it.file>
@@ -58,11 +67,33 @@
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 		<sonar.jacoco.reportPaths>${jacoco.outputDir}/${jacoco.out.it.file}</sonar.jacoco.reportPaths>
 
+		<lombok.version>1.18.12</lombok.version>
+		<nacos.api.version>1.3.0</nacos.api.version>
+		<hive.jdbc.version>3.1.2</hive.jdbc.version>
+
 
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>com.github.binmagic</groupId>
+				<artifactId>velen-etl-common</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.binmagic</groupId>
+				<artifactId>velen-etl-configuration</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.binmagic</groupId>
+				<artifactId>velen-etl-api</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
@@ -79,6 +110,44 @@
 				<scope>import</scope>
 			</dependency>
 
+			<dependency>
+				<groupId>com.alibaba.cloud</groupId>
+				<artifactId>spring-cloud-alibaba-dependencies</artifactId>
+				<version>${spring.cloud.alibaba.dependencies.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba.nacos</groupId>
+				<artifactId>nacos-api</artifactId>
+				<version>${nacos.api.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/com.alibaba.nacos/nacos-spring-context -->
+			<dependency>
+				<groupId>com.alibaba.nacos</groupId>
+				<artifactId>nacos-spring-context</artifactId>
+				<version>0.3.6</version>
+			</dependency>
+
+			<!--<dependency>
+				<groupId>org.jetbrains.kotlin</groupId>
+				<artifactId>kotlin-stdlib</artifactId>
+				<version>${kotlin.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jetbrains.kotlin</groupId>
+				<artifactId>kotlin-test</artifactId>
+				<version>${kotlin.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jetbrains.kotlin</groupId>
+				<artifactId>kotlin-reflect</artifactId>
+				<version>${kotlin.version}</version>
+			</dependency>-->
+
 			<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 			<dependency>
 				<groupId>org.projectlombok</groupId>
@@ -86,6 +155,46 @@
 				<version>${lombok.version}</version>
 				<scope>provided</scope>
 			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>1.2.70</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid-spring-boot-starter</artifactId>
+				<version>1.1.22</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/org.apache.hive/hive-jdbc -->
+			<dependency>
+				<groupId>org.apache.hive</groupId>
+				<artifactId>hive-jdbc</artifactId>
+				<version>${hive.jdbc.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.eclipse.jetty.aggregate</groupId>
+						<artifactId>*</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.hive</groupId>
+						<artifactId>hive-shims</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-hadoop -->
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-hadoop</artifactId>
+				<version>${spring.data.hadoop.version}</version>
+			</dependency>
+
+
 		</dependencies>
 	</dependencyManagement>
 
@@ -95,9 +204,31 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
+		<finalName>${project.artifactId}-${project.version}</finalName>
+
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -148,6 +279,31 @@
 					</executions>
 				</plugin>
 
+				<!-- jar source -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>3.1.0</version>
+					<configuration>
+						<skipSource>${skipSource}</skipSource>
+					</configuration>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<phase>generate-sources</phase><!--  要绑定到的生命周期的阶段 在verify之后，install之前执行下面指定的goal -->
+							<goals>
+								<goal>jar-no-fork</goal><!-- 类似执行mvn source:jar -->
+							</goals>
+
+							<configuration>
+								<excludes>
+									<exclude>${project.artifactId}-${project.version}-sources.jar</exclude>
+								</excludes>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
 				<!-- maven编译取消test测试 -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -160,6 +316,28 @@
 							java.base/java.lang=ALL-UNNAMED -Dco.paralleluniverse.fibers.verifyInstrumentation=true
 						</argLine>
 						<skip>${skipTests}</skip>
+					</configuration>
+				</plugin>
+
+				<!-- 用于打包 docker 镜像 -->
+				<plugin>
+					<groupId>com.spotify</groupId>
+					<artifactId>docker-maven-plugin</artifactId>
+					<configuration>
+						<dockerHost>${DockerHost}</dockerHost>
+						<imageName>${ImageName}</imageName>
+						<baseImage>openjdk:8-jre-alpine</baseImage>
+						<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+						<exposes>
+							<expose>${ExposePort}</expose>
+						</exposes>
+						<resources>
+							<resource>
+								<targetPath>/</targetPath>
+								<directory>${project.build.directory}</directory>
+								<include>${project.build.finalName}.jar</include>
+							</resource>
+						</resources>
 					</configuration>
 				</plugin>
 
@@ -182,7 +360,7 @@
 				</executions>
 			</plugin>
 
-			<plugin>
+			<!--<plugin>
 				<groupId>org.jetbrains.kotlin</groupId>
 				<artifactId>kotlin-maven-plugin</artifactId>
 				<executions>
@@ -204,7 +382,7 @@
 				<configuration>
 					<jvmTarget>1.8</jvmTarget>
 				</configuration>
-			</plugin>
+			</plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -246,7 +424,57 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 			</plugin>
+
+			<!-- jar source -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
 		</plugins>
+
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+					<include>**/*.json</include>
+					<include>**/*.properties</include>
+					<include>**/*.yml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.xml</include>
+					<include>**/*.json</include>
+					<include>**/*.properties</include>
+					<include>**/*.yml</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
+		<!--单元测试时引用src/main/resources下的资源文件-->
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<includes>
+					<include>**/*.xml</include>
+					<include>**/*.json</include>
+					<include>**/*.properties</include>
+					<include>**/*.yml</include>
+				</includes>
+			</testResource>
+			<testResource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.xml</include>
+					<include>**/*.json</include>
+					<include>**/*.properties</include>
+					<include>**/*.yml</include>
+				</includes>
+			</testResource>
+		</testResources>
 	</build>
 
 	<profiles>
@@ -255,7 +483,7 @@
 			<id>dev</id>
 			<properties>
 				<!--profiles.active是自定义的字段（名字随便起），自定义字段可以有多个-->
-				<profiles.active>dev</profiles.active>
+				<profile.active>dev</profile.active>
 				<skipSecurity>true</skipSecurity>
 				<skipJavadoc>false</skipJavadoc>
 				<skipSource>false</skipSource>
@@ -263,7 +491,6 @@
 				<skipJacoco>true</skipJacoco>
 				<skipSonar>true</skipSonar>
 				<coverOriginal>false</coverOriginal>
-				<enableInstrument>true</enableInstrument>
 			</properties>
 			<activation>
 				<activeByDefault>true</activeByDefault>
@@ -284,7 +511,7 @@
 		<profile>
 			<id>release</id>
 			<properties>
-				<profiles.active>release</profiles.active>
+				<profile.active>release</profile.active>
 				<skipSecurity>false</skipSecurity>
 				<skipJavadoc>true</skipJavadoc>
 				<skipSource>true</skipSource>
@@ -292,10 +519,10 @@
 				<skipJacoco>true</skipJacoco>
 				<skipSonar>true</skipSonar>
 				<coverOriginal>false</coverOriginal>
-				<enableInstrument>true</enableInstrument>
 			</properties>
 			<build>
 				<plugins>
+					<!-- Maven 仓库插件 source, javadoc, gpg,  -->
 					<!-- Source -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -325,8 +552,8 @@
 						</executions>
 					</plugin>
 					<!-- GPG -->
+					<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
 					<plugin>
-						<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
 						<version>1.6</version>
@@ -341,7 +568,7 @@
 							</execution>
 						</executions>
 					</plugin>
-
+					<!-- 版本发布 -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-release-plugin</artifactId>
@@ -367,7 +594,7 @@
 		<profile>
 			<id>test</id>
 			<properties>
-				<profiles.active>test</profiles.active>
+				<profile.active>test</profile.active>
 				<skipSecurity>true</skipSecurity>
 				<skipJavadoc>true</skipJavadoc>
 				<skipSource>true</skipSource>
@@ -375,21 +602,19 @@
 				<skipJacoco>false</skipJacoco>
 				<skipSonar>false</skipSonar>
 				<coverOriginal>false</coverOriginal>
-				<enableInstrument>true</enableInstrument>
 			</properties>
 		</profile>
 		<profile>
 			<id>release-stress</id>
 			<properties>
-				<profiles.active>release</profiles.active>
+				<profile.active>release</profile.active>
 				<skipSecurity>false</skipSecurity>
 				<skipJavadoc>true</skipJavadoc>
-				<skipSource>true</skipSource>
+				<skipSource>false</skipSource>
 				<skipTests>true</skipTests>
 				<skipJacoco>true</skipJacoco>
 				<skipSonar>true</skipSonar>
 				<coverOriginal>false</coverOriginal>
-				<enableInstrument>false</enableInstrument>
 			</properties>
 		</profile>
 	</profiles>

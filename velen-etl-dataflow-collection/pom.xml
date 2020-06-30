@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>velen-etl-parent</artifactId>
+		<groupId>com.github.binmagic</groupId>
+		<version>0.0.2-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>velen-etl-dataflow-collection</artifactId>
+	<packaging>pom</packaging>
+	<modules>
+		<module>demo-processor</module>
+		<module>demo-sink</module>
+		<module>demo-source</module>
+		<module>demo-task</module>
+		<module>demo-app</module>
+		<module>usage-detail-sender</module>
+		<module>usage-cost-processor</module>
+		<module>usage-cost-logger</module>
+		<module>logging-source</module>
+		<module>logging-processor</module>
+		<module>logging-sink</module>
+		<module>kstreams-word-count</module>
+		<module>parse-processor</module>
+		<module>hive-sink</module>
+		<module>test-source</module>
+	</modules>
+
+	<properties>
+		<maven.deploy.skip>true</maven.deploy.skip>
+	</properties>
+
+
+</project>

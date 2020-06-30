@@ -1,0 +1,12 @@
+server:
+  port: 8861
+
+spring:
+  application:
+    name: test-source
+
+project:
+  topic: xxxxx
+  verify: false
+
+

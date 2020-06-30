@@ -15,13 +15,25 @@
 		<module>velen-etl-verification-api</module>
 		<module>velen-etl-verification-service</module>
 		<module>velen-etl-parse-stream</module>
+		<module>velen-etl-verification-server</module>
+		<module>velen-etl-stream-server</module>
 	</modules>
+
+	<properties>
+		<maven.deploy.skip>true</maven.deploy.skip>
+	</properties>
 
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>com.github.binmagic</groupId>
 				<artifactId>velen-etl-verification-api</artifactId>
+				<version>${project.parent.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.github.binmagic</groupId>
+				<artifactId>velen-etl-verification-service</artifactId>
 				<version>${project.parent.version}</version>
 			</dependency>
 
