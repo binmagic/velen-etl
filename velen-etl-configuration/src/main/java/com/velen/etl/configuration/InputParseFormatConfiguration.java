@@ -34,7 +34,9 @@ public class InputParseFormatConfiguration
 	@RefreshScope
 	public static class ParseFormatConfiguration
 	{
-		private int type;
+		//private VerifyEnum.InputParseType type;
+		// 如何使用枚举
+		private String type;
 		private String formula;
 
 		@Override
@@ -43,7 +45,7 @@ public class InputParseFormatConfiguration
 			if(this == o) return true;
 			if(o == null || getClass() != o.getClass()) return false;
 			ParseFormatConfiguration that = (ParseFormatConfiguration)o;
-			return type == that.type &&
+			return Objects.equals(type, that.type) &&
 					Objects.equals(formula, that.formula);
 		}
 

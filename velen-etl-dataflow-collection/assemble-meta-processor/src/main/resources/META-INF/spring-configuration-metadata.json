@@ -1,0 +1,24 @@
+{
+  "groups": [
+    {
+      "name": "input",
+      "type": "com.velen.etl.dataflow.processor.input.parse.properties.InputParseProperties",
+      "sourceType": "com.velen.etl.dataflow.processor.input.parse.properties.InputParseProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "app-id",
+      "type": "String",
+      "sourceType": "com.velen.etl.dataflow.processor.input.parse.properties.InputParseProperties",
+      "description": "app id."
+    },
+    {
+      "name": "formats",
+      "type": "java.util.Map<String, String>",
+      "sourceType": "com.velen.etl.dataflow.processor.input.parse.properties.InputParseProperties",
+      "description": "input parse formats."
+    }
+  ],
+  "hints": []
+}

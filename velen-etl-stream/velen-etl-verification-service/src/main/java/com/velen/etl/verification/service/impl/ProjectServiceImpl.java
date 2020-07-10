@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 @Service
 public class ProjectServiceImpl implements ProjectService
 {
@@ -31,9 +32,9 @@ public class ProjectServiceImpl implements ProjectService
 	{
 		Map<String, Object> verify = new LinkedHashMap<>();
 		verify.put("topic", project.getTopic());
-		verify.put("verify", project.getEnforcedVerify());
+		verify.put("verify", project.getVerify());
 		verify.put("dataId", dataId);
-		verify.put("group", project.getGroup());
+		//verify.put("group", project.getGroup());
 
 		//verify.put("type", "yaml");
 

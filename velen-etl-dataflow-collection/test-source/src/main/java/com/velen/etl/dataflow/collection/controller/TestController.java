@@ -1,20 +1,19 @@
 package com.velen.etl.dataflow.collection.controller;
 
-import com.velen.etl.configuration.ProjectConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/project/dataflow/stream")
+@RequestMapping("/stream")
+@EnableBinding(Source.class)
 public class TestController
 {
-	@Autowired
-	ProjectConfiguration projectConfiguration;
+	//@Autowired
+	//ProjectConfiguration projectConfiguration;
 
 	@Autowired
 	private Source source;
@@ -22,21 +21,23 @@ public class TestController
 	/**
 	 * 测试用
 	 */
-	@GetMapping("/get")
-	String get()
+	@RequestMapping("/test/{msg}")
+	public ResponseEntity send(@PathVariable("msg") String msg)
 	{
-		return projectConfiguration.toString();
+		boolean response = source.output().send(MessageBuilder.withPayload(msg).build());
+
+		return ResponseEntity.ok(response);
 	}
 
 	/**
 	 * 更新
-	 */
+	 *//*
 	@RequestMapping("/update")
 	ResponseEntity update(@RequestParam("topic") String topic, @RequestParam("enforced") Boolean enforcedVerify)
 	{
-		projectConfiguration.setTopic(topic);
-		projectConfiguration.setVerify(enforcedVerify);
+		//projectConfiguration.setTopic(topic);
+		//projectConfiguration.setVerify(enforcedVerify);
 
 		return ResponseEntity.ok().build();
-	}
+	}*/
 }

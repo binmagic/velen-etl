@@ -25,6 +25,7 @@ public class TableColumn
 	 *   | struct_type
 	 *   | union_type  -- (Note: Available in Hive 0.7.0 and later)
 	 */
+	@Deprecated
 	public enum DataType
 	{
 		TINYINT,

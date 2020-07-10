@@ -1,0 +1,43 @@
+#middleware:
+# host: localhost
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.1.85:8848
+      config:
+        file-extension: yml
+        server-addr: 192.168.1.85:8848
+        enable-remote-sync-config: true
+        #namespace: 11111
+      #        prefix: test
+
+  datasource:
+    druid:
+      url: jdbc:hive2://119.254.118.20:10000/default
+      type: com.alibaba.druid.pool.DruidDataSource
+      username: root
+      #      password: sixmonth
+      driver-class-name: org.apache.hive.jdbc.HiveDriver
+      initial-size: 1
+      min-idle: 1
+      max-idle: 5
+      max-active: 50
+      max-wait: 10000
+      time-between-eviction-runs-millis: 10000
+      min-evictable-idle-time-millis: 300000
+      validation-query: select 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+      filters: stat
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+

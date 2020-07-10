@@ -74,7 +74,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<executable>true</executable>
-					<mainClass>com.velen.etl.dataflow.collection.DemoApplication</mainClass>
+					<mainClass>com.velen.etl.dataflow.collection.TestSourceApplication</mainClass>
 					<layout>JAR</layout>
 				</configuration>
 				<executions>

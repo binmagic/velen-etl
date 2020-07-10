@@ -89,7 +89,15 @@ public interface VerifyEnum
 
 		public static InputParseType parse(String str)
 		{
-			return map.getOrDefault(str.toUpperCase(), NONE);
+			return mapByName.getOrDefault(str.toUpperCase(), NONE);
+		}
+
+		/**
+		 * 验证内容是否与类型一致
+		 */
+		public boolean validate(String value)
+		{
+			return true;
 		}
 	}
 

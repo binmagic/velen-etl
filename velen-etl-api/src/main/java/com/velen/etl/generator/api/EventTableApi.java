@@ -1,23 +1,32 @@
 package com.velen.etl.generator.api;
 
+import com.velen.etl.generator.tdo.EventMetadataTDO;
 import com.velen.etl.generator.tdo.EventTableTDO;
-import com.velen.etl.generator.tdo.TableDescTDO;
+import com.velen.etl.generator.tdo.PropertyMetadataTDO;
+import javafx.util.Pair;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
-
+@Deprecated
 @FeignClient("velen-etl-generator")
 public interface EventTableApi
 {
 	/**
+	 * 测试用
+	 */
+	@RequestMapping("/event/generator/test/{arg}")
+	String test(@PathVariable("arg") String arg);
+
+	/**
 	 * 创建元事件表
 	 */
 	@PostMapping("/event/generator/create")
-	ResponseEntity create(@RequestParam("appId") String appId, @RequestParam("table") EventTableTDO tableTDO, @RequestParam("operator") String operator);
+	//ResponseEntity create(@RequestParam("appId") String appId, @RequestParam("table") EventTableTDO tableTDO, @RequestParam("operator") String operator);
+	ResponseEntity create(@RequestParam("appId") String appId, @RequestParam("table") EventMetadataTDO tableTDO, @RequestParam("operator") String operator);
 
 	/**
 	 * 创建元事件表以其它事件表为模板
@@ -40,20 +49,21 @@ public interface EventTableApi
 	/**
 	 * 返回已经创建的元事件表
 	 */
-	@PostMapping("/event/generator/get")
-	ResponseEntity get(@RequestParam("appId") String appId, @RequestParam("db") String db, @RequestParam("table") String table, @RequestParam("operator") String operator);
+	/*@PostMapping("/event/generator/get")
+	ResponseEntity get(@RequestParam("appId") String appId, @RequestParam("db") String db, @RequestParam("table") String table, @RequestParam("operator") String operator);*/
 
-
-	/**
-	 * 服务间创建order
-	 */
-	//ResponseEntity createOrderIfNoExist();
 
 	/**
 	 * 数据同步
-	 * @param reload true: 加载所有，false：新创建的
 	 */
-	@PostMapping("/event/generator/synchronize")
-	List<TableDescTDO> synchronize(@RequestParam("appId") String appId, @RequestParam("reload") Boolean reload, @RequestParam("operator") String operator);
+	@PostMapping("/event/generator/meta/update-meta")
+	//ResponseEntity syncMeta(@RequestParam("appId") String appId, @RequestParam("event") String event, @RequestBody Map<String, Pair<Integer,String>> metas);
+	ResponseEntity updateMeta(@RequestParam("appId") String appId, @RequestParam("event") String event, @RequestBody List<PropertyMetadataTDO> properties);
+
+	/**
+	 * 数据获取
+	 */
+	@PostMapping("/event/generator/meta/get-meta")
+	Map<String, Pair<Integer,String>> getMeta(@RequestParam("appId") String appId, @RequestParam("event") String event, @RequestParam("operator") String operator);
 
 }

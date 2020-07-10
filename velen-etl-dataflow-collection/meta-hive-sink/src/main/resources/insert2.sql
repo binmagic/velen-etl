@@ -1,0 +1,1 @@
+insert into test values ("11111", 1, '2020-10-10 10:10:10', named_struct('a', 1, 'b', 2, 'c', 'aaaa', 'd', date("2020-10-10 10:10:10")));

@@ -49,7 +49,7 @@ public class DemoSourceApplication
 	@PostConstruct
 	private void start() throws NacosException
 	{
-		nacosConfigManager.getConfigService().addListener(projectConfiguration.getDataId(), projectConfiguration.getGroup(), new Listener()
+		nacosConfigManager.getConfigService().addListener("aaaa", "bbbb", new Listener()
 		{
 			@Override
 			public Executor getExecutor()

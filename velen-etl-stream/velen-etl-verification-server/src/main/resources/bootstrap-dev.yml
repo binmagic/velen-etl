@@ -25,3 +25,7 @@ spring:
       database: velen-etl-project
       host: 192.168.1.85
       port: 27017
+
+service:
+  verification:
+#    restful: false

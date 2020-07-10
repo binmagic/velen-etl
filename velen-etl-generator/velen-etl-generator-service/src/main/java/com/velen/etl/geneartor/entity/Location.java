@@ -2,6 +2,7 @@ package com.velen.etl.geneartor.entity;
 
 import lombok.*;
 
+@Deprecated
 @Getter
 @Setter
 @Builder

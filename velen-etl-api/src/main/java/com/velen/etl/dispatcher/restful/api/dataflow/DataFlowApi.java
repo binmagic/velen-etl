@@ -2,10 +2,7 @@ package com.velen.etl.dispatcher.restful.api.dataflow;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.naming.OperationNotSupportedException;
 import java.util.List;
@@ -21,8 +18,8 @@ public interface DataFlowApi
 	/**
 	 * 测试用
 	 */
-	@GetMapping("/project/dispatch/dataflow/test")
-	ResponseEntity test();
+	@RequestMapping("/project/dispatch/dataflow/test/{arg}")
+	String test(@PathVariable("arg") String arg);
 
 	/**
 	 * 注册App

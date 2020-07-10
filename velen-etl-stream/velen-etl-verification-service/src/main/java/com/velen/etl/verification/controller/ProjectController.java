@@ -1,19 +1,21 @@
 package com.velen.etl.verification.controller;
 
+import com.velen.etl.ResultCode;
 import com.velen.etl.dispatcher.restful.api.DispatchApi;
+import com.velen.etl.verification.configuration.VerificationConfiguration;
 import com.velen.etl.verification.entity.InputFieldRule;
 import com.velen.etl.verification.entity.InputParseFormat;
 import com.velen.etl.verification.entity.Project;
+import com.velen.etl.verification.properties.TestConfiguration;
 import com.velen.etl.verification.repository.InputFieldRuleRepository;
 import com.velen.etl.verification.repository.InputParseFormatRepository;
 import com.velen.etl.verification.repository.ProjectRepository;
-import com.velen.etl.verification.service.ProjectService;
-import com.velen.etl.verification.entity.DeployEnum;
 import com.velen.etl.verification.entity.VerifyEnum;
 import com.velen.etl.verification.tdo.FieldRuleTDO;
 import com.velen.etl.verification.tdo.ParseFormatTDO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,15 +33,19 @@ public class ProjectController
 	@Autowired
 	private InputParseFormatRepository inputParseFormatRepository;
 
+	//@Autowired
+	//private NacosConfigService nacosConfigService;
 	@Autowired
-	private ProjectService projectService;
+	private TestConfiguration testConfiguration;
 
 	@Autowired
 	private DispatchApi dispatchApi;
 
-	//@Autowired
-	//private NacosConfigManager nacosConfigManager;
-
+	// TODO: 这个也许需要 ProjectConfiguration
+	//@Value("${project.restful}")
+	//private boolean restful = true;
+	@Autowired
+	private VerificationConfiguration verificationConfiguration;
 
 	/**
 	 * 测试用
@@ -47,6 +53,7 @@ public class ProjectController
 	@RequestMapping("/test/{arg}")
 	String test(@PathVariable("arg") String arg) throws Exception
 	{
+		System.out.println(verificationConfiguration.getRestful());
 
 		List<InputParseFormat> inputParseFormats = this.inputParseFormatRepository.withQueryFindByProjectId("a");
 
@@ -61,10 +68,10 @@ public class ProjectController
 	}
 
 	/**
-	 * 创建项目
+	 * 创建项目(也用于属性更新)
 	 */
 	@PostMapping("/create")
-	ResponseEntity create(@RequestParam("appId") String appId, @RequestParam("topic") String topic, @RequestParam("enforced") Boolean enforcedVerify,
+	ResponseEntity create(@RequestParam("appId") String appId, @RequestParam("topic") String topic, @RequestParam("verify") Boolean verify,
 	                      @RequestParam("operator") String operator)
 	{
 		// uncheck parameters
@@ -79,25 +86,42 @@ public class ProjectController
 		//if(projectRepository.existsById(appId))
 		//	return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
+		Project project = projectRepository.insert(new Project(appId, topic, verify, /*"", "DEFAULT-GROUP", */operator));
 
-		Project project = projectRepository.insert(new Project(appId, topic, enforcedVerify, "", "DEFAULT-GROUP", operator));
+		// deploy stream
+		Map<String, String> properties = new HashMap<>();
+		properties.put(verificationConfiguration.getTopicProperty(), topic);
+		properties.put(verificationConfiguration.getVerifyProperty(), Boolean.toString(verify));
+		dispatchApi.deployStream(appId, "", properties);
 
-		try
+		/*try
 		{
-			if(!projectService.updateProject("demo-source", "DEFAULT_GROUP", project, true))
-				return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+			// id
+			String id = "";
+			// group
+			String group = "DEFAULT_GROUP";
+
+			if(restful)
+			{
+
+			}
+			else
+			{
+				if(!nacosConfigService.updateProject(id, group, project))
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+			}
 		}
 		catch(Exception e)
 		{
 
-		}
+		}*/
 
 
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(project);
 	}
 
 	/**
-	 * 设置输入流的解释方式
+	 * 设置输入流的解释方式(也用于属性更新)
 	 */
 	@PostMapping("/set-input-parse")
 	ResponseEntity setInputParse(@RequestParam("appId") String appId
@@ -120,14 +144,14 @@ public class ProjectController
 		}
 		inputParseFormatRepository.insert(inputParseFormats);
 
-		if(!projectService.updateParseFormats(appId, "", "", inputParseFormats, true))
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		//if(!nacosConfigService.updateParseFormats(appId, "", "", inputParseFormats))
+		//	return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
 		return ResponseEntity.ok().build();
 	}
 
 	/**
-	 * 设置字段入库规则
+	 * 设置字段入库规则(也用于属性更新)
 	 */
 	@PostMapping("/set-field-rule")
 	ResponseEntity setFieldRule(@RequestParam("appId") String appId
@@ -148,8 +172,8 @@ public class ProjectController
 		}
 		this.inputFieldRuleRepository.insert(inputFieldRules);
 
-		if(!projectService.updateFieldRules(inputFieldRules, true))
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		//if(!nacosConfigService.updateFieldRules(inputFieldRules))
+		//	return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
 
 		return ResponseEntity.ok().build();
@@ -159,11 +183,11 @@ public class ProjectController
 	 * 设置规则
 	 */
 	@PostMapping("/settle")
-	ResponseEntity settle(@RequestParam("appId") String appId, @RequestParam("topic") String topic, @RequestParam("enforced") Boolean enforcedVerify
+	ResponseEntity settle(@RequestParam("appId") String appId, @RequestParam("topic") String topic, @RequestParam("verify") Boolean verify
 			, @RequestParam("formats") List<ParseFormatTDO> parseFormatsTDO, @RequestParam("fields") List<FieldRuleTDO> fieldRulesTDO
 			, @RequestParam("operator") String operator)
 	{
-		return ResponseEntity.ok().build();
+		throw new UnsupportedOperationException("/project/verification/settle");
 	}
 
 	/**
@@ -185,30 +209,74 @@ public class ProjectController
 	/**
 	 * 部署stream
 	 */
-	@PostMapping("/stream/deploy")
-	ResponseEntity deploy(@RequestParam("appId") String appId, @RequestParam("type") DeployEnum.StreamDeployType type, @RequestParam("operator") String operator)
+	@PostMapping("/deploy")
+	ResponseEntity deployStream(@RequestParam("appId") String appId, @RequestParam("procedure") String procedure, @RequestParam("operator") String operator)
 	{
-		String id = "";
-		return dispatchApi.deploy(id, type);
+		// uncheck parameters
+
+		Optional<Project> op = projectRepository.findById(appId);
+
+		if(!op.isPresent())
+			return ResponseEntity.status(ResultCode.PROJECT_EXISTS).build();
+
+		// basic
+		Project project = op.get();
+		assert project != null;
+
+		Map<String, String> properties = new HashMap<>();
+		properties.put(verificationConfiguration.getTopicProperty(), project.getTopic());
+		properties.put(verificationConfiguration.getVerifyProperty(), Boolean.toString(project.getVerify()));
+
+		// input parse
+		// project.parse.formats[key] = value
+		List<InputParseFormat> inputParseFormats = this.inputParseFormatRepository.withQueryFindByProjectId(appId);
+		for(int i = 0; i < inputParseFormats.size(); ++i)
+		{
+			InputParseFormat o = inputParseFormats.get(i);
+			assert o != null;
+			//String key1 = verificationConfiguration.getFormatKeyPrefix() + i;
+			//properties.put(key1, o.getInputParseType().name());
+			//String key2 = verificationConfiguration.getFormatValuePrefix() + i;
+			//properties.put(key2, o.getRegex());
+
+		}
+
+		// rule
+		List<InputFieldRule> inputFieldRules = this.inputFieldRuleRepository.withQueryFindByProjectId(appId);
+		for(int i = 0; i < inputFieldRules.size(); ++i)
+		{
+			InputFieldRule o = inputFieldRules.get(i);
+			assert o != null;
+			//String key1 = verificationConfiguration.getFormatKeyPrefix() + i;
+			//properties.put(key1, o.getKeyRuleType().name());
+			//String key2 = verificationConfiguration.getFormatValuePrefix() + i;
+			//properties.put(key2, o.getKeyRule());
+
+		}
+
+		return dispatchApi.deployStream(appId, procedure, properties);
+
+		//return dispatchApi.deploy(id, type);
+		//return ResponseEntity.ok().build();
 	}
 
 	/**
 	 * 部署task
 	 */
-	@PostMapping("/task/deploy")
-	ResponseEntity deploy(@RequestParam("appId") String appId, @RequestParam("type") DeployEnum.TaskDeployType type, @RequestParam("operator") String operator)
+	/*@PostMapping("/deploy")
+	ResponseEntity deployTask(@RequestParam("appId") String appId, @RequestParam("type") String type, @RequestParam("operator") String operator)
 	{
 		return ResponseEntity.ok().build();
-	}
+	}*/
 
 	/**
 	 * 部署app
 	 */
-	@PostMapping("/app/deploy")
-	ResponseEntity deploy(@RequestParam("appId") String appId, @RequestParam("type") DeployEnum.AppDeployType type, @RequestParam("operator") String operator)
+	/*@PostMapping("/deploy")
+	ResponseEntity deployApp(@RequestParam("appId") String appId, @RequestParam("type") String type, @RequestParam("operator") String operator)
 	{
 		return ResponseEntity.ok().build();
-	}
+	}*/
 
 
 }

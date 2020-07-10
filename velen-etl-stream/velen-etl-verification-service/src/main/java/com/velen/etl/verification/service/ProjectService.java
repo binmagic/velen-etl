@@ -8,6 +8,7 @@ import com.velen.etl.verification.entity.Project;
 
 import java.util.List;
 
+@Deprecated
 public interface ProjectService
 {
 	//boolean updateProject(String appId, String prefix, String group, Project project);

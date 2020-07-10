@@ -1,6 +1,5 @@
 package com.velen.etl.common.response;
 
-import com.velen.etl.common.entity.ReCodeType;
 
 public class Result
 {
@@ -25,10 +24,10 @@ public class Result
 	//@JsonInclude(JsonInclude.Include.NON_NULL)
 	private Object data;
 
-	public Result setCode(ReCodeType.ResultCode resultCode) {
+	/*public Result setCode(ReCodeType.ResultCode resultCode) {
 		this.code = resultCode.code();
 		return this;
-	}
+	}*/
 
 	public int getCode() {
 		return code;

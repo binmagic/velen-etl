@@ -28,6 +28,14 @@
 		<module>parse-processor</module>
 		<module>hive-sink</module>
 		<module>test-source</module>
+		<module>parse-format-source</module>
+		<module>parse-format-processor</module>
+		<module>input-verify-processor</module>
+		<module>multiple-source</module>
+		<module>field-verify-processor</module>
+		<module>input-parse-processor</module>
+		<module>assemble-meta-processor</module>
+		<module>meta-hive-sink</module>
 	</modules>
 
 	<properties>

@@ -133,3 +133,11 @@ stream create --name httpIngest --definition "http --server.port=8123 --path-pat
 
 
 ------------------------------------------------------------------------------------------------------------------------
+### 学习资料
+https://blog.csdn.net/yzy199391/article/details/88551718
+
+
+
+### 测试数据
+2019-11-14 12:28:59.087 INFO   cwy-online [@175ba54f-655c-4bd4-875c-29506b72ceae] (inner-executor1-1) (com.storm.net.log4jConfig.TxDBLog) {"logname":"PlayerLogin","GameSvrId":"300","dtEventTime":"2019-11-14 12:28:59","vGameAppid":"1109920778","PlatID":0,"iZoneAreaID":100,"vopenid":"2584A6E8DDC8B10CD5BE66FE7B76E63F","Level":1,"PlayerFriendsNum":0,"ClientVersion":"1.3.390.11216","SystemSoftware":"iOS 12.0","SystemHardware":"iPhone7,2","TelecomOper":"","Network":"wifi","ScreenWidth":1334,"ScreenHight":750,"Density":326.0,"LoginChannel":8,"vRoleID":"184588875003953054","vRoleName":"克罗德","CpuHardware":"arm64","Memory":88888,"GLRender":"Metal","GLVersion":"Metal","DeviceId":"F8390CC1-4405-43DE-8D15-C29B89F20366","vClientIP":"/192.168.1.152","ClientBaseVersion":"1.3.390.11216","CpuFrequency":0,"CpuCount":0,"GLDevice":"Apple A8 GPU","Account":"lc01","iMoney":88964,"Cash":88889,"IslandNum":0,"HeroNum":8,"UnlockSkillNum":0,"SuitNum":8,"PartNum":0,"OrdinaryMotionNum":4,"ExclusiveMotionNum":0,"TagNum":0,"TutorialNum":0,"ItemId1":102,"ItemCount1":0,"ItemId2":103,"ItemCount2":0,"ItemId3":104,"ItemCount3":0,"ItemId4":105,"ItemCount4":0,"ItemId5":3501,"ItemCount5":0,"ItemId6":3502,"ItemCount6":0,"ItemId7":9999,"ItemCount7":0,"ItemId8":3503,"ItemCount8":0,"ItemId9":3504,"ItemCount9":0,"ItemId10":401,"ItemCount10":0,"ItemId11":3505,"ItemCount11":0,"ItemId12":402,"ItemCount12":0,"ItemId13":3506,"ItemCount13":0,"ItemId14":403,"ItemCount14":0,"ItemId15":405,"ItemCount15":0,"ItemId16":406,"ItemCount16":0,"ItemId17":407,"ItemCount17":0,"ItemId18":408,"ItemCount18":0,"ItemId19":409,"ItemCount19":0,"ItemId20":301,"ItemCount20":0,"ItemId21":302,"ItemCount21":0}
+.*\(com.storm.net.log4jConfig.TxDBLog\).*(\{"logname":"(.+?)",.*\})

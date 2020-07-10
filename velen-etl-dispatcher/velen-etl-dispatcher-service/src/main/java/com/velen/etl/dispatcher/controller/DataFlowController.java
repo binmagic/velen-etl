@@ -1,29 +1,18 @@
 package com.velen.etl.dispatcher.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.velen.etl.configuration.DataFlowConfiguration;
-import com.velen.etl.dispatcher.service.DataFlowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.dataflow.core.ApplicationType;
 import org.springframework.cloud.dataflow.rest.client.DataFlowOperations;
-import org.springframework.cloud.dataflow.rest.client.DataFlowTemplate;
 //import org.springframework.cloud.dataflow.rest.resource.StreamDefinitionResource;
 //import org.springframework.cloud.dataflow.rest.util.HttpClientConfigurer;
 import org.springframework.cloud.dataflow.rest.resource.AppRegistrationResource;
+import org.springframework.cloud.dataflow.rest.resource.StreamAppStatusResource;
 import org.springframework.cloud.dataflow.rest.resource.StreamDefinitionResource;
 import org.springframework.cloud.dataflow.rest.resource.StreamDeploymentResource;
 import org.springframework.hateoas.PagedModel;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,10 +49,31 @@ public class DataFlowController
 	//private StringBuilder stringBuilder;
 	//private MultiValueMap<String, Object> parameters = new LinkedMultiValueMap<>();
 
-	@GetMapping("/test")
-	ResponseEntity test()
+	@RequestMapping("/test/{arg}")
+	String test(@PathVariable("arg") String arg)
 	{
-		PagedModel<StreamDefinitionResource> list = dataFlowOperations.streamOperations().list();
+		//PagedModel<StreamDefinitionResource> list = dataFlowOperations.streamOperations().list();
+
+		try
+		{
+			StreamDeploymentResource r1 = dataFlowOperations.streamOperations().info(arg);
+			System.out.println(r1);
+		}
+		catch(Exception e)
+		{
+
+		}
+		try
+		{
+			StreamAppStatusResource r2 = dataFlowOperations.streamOperations().validateStreamDefinition(arg);
+			System.out.println(r2);
+		}
+		catch(Exception e)
+		{
+
+		}
+
+		StreamDefinitionResource r3 = dataFlowOperations.streamOperations().getStreamDefinition(arg);
 
 		/*stringBuilder = new StringBuilder();
 		stringBuilder.append(dataFlowConfiguration.getUri());
@@ -81,7 +91,7 @@ public class DataFlowController
 
 		return responseEntity;*/
 
-		return ResponseEntity.ok(list);
+		return arg;
 	}
 
 	/**

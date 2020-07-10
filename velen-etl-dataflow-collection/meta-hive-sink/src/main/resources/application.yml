@@ -1,0 +1,52 @@
+server:
+  port: 8861
+
+spring:
+  application:
+    name: parse-processor
+#  mongodb:
+#    uri: mongodb://name:password@localhost:27017/test
+
+
+# input.parse
+# input.field
+input:
+  parse:
+    formats:
+      - type: JSON
+        formula: ssss
+      - type: REGEX
+        formula: sssss
+  field:
+    rules:
+      - name: assss
+        type: JSON
+        key: ssss
+        value: ssss
+      - name: dddd
+        type: JSON
+        key: bbbb
+        value: 4444
+
+
+datasource:
+  hive:
+    url: jdbc:hive2://119.254.118.20:10000/default
+    type: com.alibaba.druid.pool.DruidDataSource
+    username: root
+#      password: sixmonth
+    driver-class-name: org.apache.hive.jdbc.HiveDriver
+    initial-size: 1
+    min-idle: 1
+    max-idle: 5
+    max-active: 50
+    max-wait: 10000
+    time-between-eviction-runs-millis: 10000
+    min-evictable-idle-time-millis: 300000
+    validation-query: select 'x'
+    test-while-idle: true
+    test-on-borrow: false
+    test-on-return: false
+    pool-prepared-statements: true
+    max-open-prepared-statements: 20
+    filters: stat

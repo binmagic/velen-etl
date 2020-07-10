@@ -15,6 +15,7 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Deprecated
 public class EventTableTDO
 {
 	// [EXTERNAL]

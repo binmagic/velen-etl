@@ -1,0 +1,25 @@
+{
+  "groups": [
+    {
+      "name": "input",
+      "type": "com.velen.etl.dataflow.processor.input.verify.properties.InputVerifyProperties",
+      "sourceType": "com.velen.etl.dataflow.processor.input.verify.properties.InputVerifyProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "verify",
+      "type": "java.lang.Boolean",
+      "description": "Whether to start forced verification mode!",
+      "sourceType": "com.velen.etl.dataflow.processor.input.verify.properties.InputVerifyProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "metas",
+      "type": "java.util.Map<String, List<com.velen.etl.dataflow.processor.input.verify.properties.InputVerifyProperties.Property>>",
+      "sourceType": "com.velen.etl.dataflow.processor.input.verify.properties.InputVerifyProperties",
+      "description": "input metas."
+    }
+  ],
+  "hints": []
+}

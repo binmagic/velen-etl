@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
+@Deprecated
 @Getter
 @Setter
 @Builder

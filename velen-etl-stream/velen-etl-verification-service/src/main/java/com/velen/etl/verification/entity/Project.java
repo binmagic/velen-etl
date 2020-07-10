@@ -19,9 +19,9 @@ public class Project// extends BaseEntity<Project>
 	private String id;
 
 	private String topic;
-	private Boolean enforcedVerify;
-	private String dataId;
-	private String group;
+	private Boolean verify;
+	//private String dataId;
+	//private String group;
 	private String lastTimeOperator;
 
 	//private List<InputParseFormat> inputParseFormats;

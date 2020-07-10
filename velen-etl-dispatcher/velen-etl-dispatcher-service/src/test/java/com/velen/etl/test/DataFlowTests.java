@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {
 		com.velen.etl.dispatcher.controller.DataFlowController.class
-		, com.velen.etl.configuration.DataFlowConfiguration.class
+		//, com.velen.etl.configuration.DataFlowConfiguration.class
 })
 @WebAppConfiguration
 public class DataFlowTests

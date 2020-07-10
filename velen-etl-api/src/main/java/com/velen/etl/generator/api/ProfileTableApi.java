@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+@Deprecated
 @FeignClient("velen-etl-generator")
 public interface ProfileTableApi
 {

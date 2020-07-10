@@ -5,8 +5,8 @@ spring:
   application:
     name: test-source
 
-project:
-  topic: xxxxx
-  verify: false
+#project:
+#  topic: xxxxx
+#  verify: false
 
 

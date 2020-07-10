@@ -11,6 +11,7 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Deprecated
 public class SerDeTDO
 {
 	String name;

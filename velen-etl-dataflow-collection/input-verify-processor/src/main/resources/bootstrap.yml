@@ -1,0 +1,40 @@
+#middleware:
+# host: localhost
+
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.1.85:8848
+      config:
+        file-extension: yml
+        server-addr: 192.168.1.85:8848
+        enable-remote-sync-config: true
+        #namespace: 11111
+      #        prefix: test
+
+    stream:
+      kafka:
+        binder:
+          brokers: 192.168.1.29:9092
+          auto-create-topics: true
+          transaction:
+            producer:
+              compression-type: none
+      bindings:
+        input:
+          destination: stream-demo-trans
+          content-type: application/json
+        output:
+          destination: stream-demo-trans2 # kafka topic
+          content-type: application/json
+
+
+
+
+
+

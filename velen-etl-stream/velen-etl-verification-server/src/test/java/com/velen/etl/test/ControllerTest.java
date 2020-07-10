@@ -18,6 +18,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = ProjectController.class)
 public class ControllerTest
@@ -33,7 +36,7 @@ public class ControllerTest
 	@Before
 	public void init()
 	{
-		mockMvc = MockMvcBuilders.standaloneSetup(projectController).build();
+		//mockMvc = MockMvcBuilders.standaloneSetup(projectController).build();
 		logger.info("开始测试...");
 	}
 
@@ -54,6 +57,26 @@ public class ControllerTest
 				.andReturn();
 
 		//logger.info(mvcResult.getResponse().getContentAsString());
+	}
+
+	@Test
+	public void testRegex()
+	{
+		String content = "2019-11-25 10:38:55.371 INFO   jdk11-online [@3a907380-f60b-4e28-ae2b-c30e562277bf] (inner-executor1-1) (com.storm.net.log4jConfig.TxDBLog) {\"logname\":\"MoneyFlow\",\"GameSvrId\":\"104\",\"dtEventTime\":\"2019-11-25 10:38:55\",\"PlatID\":1,\"iZoneAreaID\":1,\"vopenid\":\"2825002579772470409\",\"Sequence\":\"\",\"Level\":5,\"AfterMoney\":80379,\"iMoney\":15,\"Reason\":0,\"SubReason\":\"\",\"AddOrReduce\":1,\"iMoneyType\":2,\"LoginChannel\":9,\"Account\":\"ÎÞµÐÍþ¸ç\",\"vRoleID\":\"185466558818172851\",\"vRoleName\":\"hw010\",\"Uuid\":\"3a907380-f60b-4e28-ae2b-c30e562277bf\"}";
+		String regex = ".*\\(com.storm.net.log4jConfig.TxDBLog\\).*(\\{\\\"logname\\\":\\\"(.+?)\\\"\\,.*\\})";
+
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(content);
+
+		if(matcher.find())
+		{
+			for(int i = 0; i < matcher.groupCount(); ++i)
+			{
+				String group = matcher.group(i);
+				System.out.println(group);
+			}
+		}
+
 	}
 
 

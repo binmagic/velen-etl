@@ -22,14 +22,14 @@ public interface ProjectApi
 	String test(@PathVariable("arg") String arg);
 
 	/**
-	 * 创建项目
+	 * 创建项目(也用于属性更新)
 	 */
 	@PostMapping("/project/verification/create")
-	ResponseEntity create(@RequestParam("appId") String appId, @RequestParam("topic") String topic, @RequestParam("enforced") Boolean enforcedVerify,
+	ResponseEntity create(@RequestParam("appId") String appId, @RequestParam("topic") String topic, @RequestParam("verify") Boolean verify,
 	                      @RequestParam("operator") String operator);
 
 	/**
-	 * 设置输入流的解释方式
+	 * 设置输入流的解释方式(也用于属性更新)
 	 */
 	@PostMapping("/project/verification/set-input-parse")
 	ResponseEntity setInputParse(@RequestParam("appId") String appId
@@ -37,7 +37,7 @@ public interface ProjectApi
 			, @RequestParam("operator") String operator);
 
 	/**
-	 * 设置字段入库规则
+	 * 设置字段入库规则(也用于属性更新)
 	 */
 	@PostMapping("/project/verification/set-field-rule")
 	ResponseEntity setFieldRule(@RequestParam("appId") String appId
@@ -54,25 +54,28 @@ public interface ProjectApi
 	 * 设置规则
 	 */
 	@PostMapping("/project/verification/settle")
-	ResponseEntity settle(@RequestParam("appId") String appId, @RequestParam("topic") String topic, @RequestParam("enforced") Boolean enforcedVerify
+	ResponseEntity settle(@RequestParam("appId") String appId, @RequestParam("topic") String topic, @RequestParam("verify") Boolean verify
 			, @RequestParam("formats") List<ParseFormatTDO> parseFormatsTDO, @RequestParam("fields") List<FieldRuleTDO> fieldRulesTDO
 			, @RequestParam("operator") String operator);
 
 	/**
 	 * 部署stream
 	 */
-	@PostMapping("/project/verification/stream/deploy")
-	ResponseEntity deploy(@RequestParam("appId") String appId, @RequestParam("type") DeployEnum.StreamDeployType type, @RequestParam("operator") String operator);
+	@PostMapping("/project/verification/deploy-stream")
+	//ResponseEntity deploy(@RequestParam("appId") String appId, @RequestParam("type") DeployEnum.StreamDeployType type, @RequestParam("operator") String operator);
+	ResponseEntity deployStream(@RequestParam("appId") String appId, @RequestParam("procedure") String procedure, @RequestParam("operator") String operator);
 
 	/**
 	 * 部署task
 	 */
-	@PostMapping("/project/verification/task/deploy")
-	ResponseEntity deploy(@RequestParam("appId") String appId, @RequestParam("type") DeployEnum.TaskDeployType type, @RequestParam("operator") String operator);
+	//@PostMapping("/project/verification/deploy-task")
+	//ResponseEntity deploy(@RequestParam("appId") String appId, @RequestParam("type") DeployEnum.TaskDeployType type, @RequestParam("operator") String operator);
+	//ResponseEntity deployTask(@RequestParam("appId") String appId, @RequestParam("type") String type, @RequestParam("operator") String operator);
 
 	/**
 	 * 部署app
 	 */
-	@PostMapping("/project/verification/app/deploy")
-	ResponseEntity deploy(@RequestParam("appId") String appId, @RequestParam("type") DeployEnum.AppDeployType type, @RequestParam("operator") String operator);
+	//@PostMapping("/project/verification/deploy-app")
+	//ResponseEntity deploy(@RequestParam("appId") String appId, @RequestParam("type") DeployEnum.AppDeployType type, @RequestParam("operator") String operator);
+	//ResponseEntity deployApp(@RequestParam("appId") String appId, @RequestParam("type") String type, @RequestParam("operator") String operator);
 }

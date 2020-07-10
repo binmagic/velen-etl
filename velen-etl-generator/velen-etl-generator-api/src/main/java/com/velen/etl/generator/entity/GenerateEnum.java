@@ -43,6 +43,7 @@ public interface GenerateEnum
 	 *   | struct_type
 	 *   | union_type  -- (Note: Available in Hive 0.7.0 and later)
 	 */
+	@Deprecated
 	enum DataType implements GenerateEnum
 	{
 		// ---------------------------------------------

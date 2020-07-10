@@ -1,0 +1,25 @@
+{
+  "groups": [
+    {
+      "name": "parse",
+      "type": "com.velen.etl.collections.dataflow.properties.ParseProperties",
+      "sourceType": "com.velen.etl.collections.dataflow.properties.ParseProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "parse.verify",
+      "type": "java.lang.Boolean",
+      "description": "Whether to start forced verification mode!",
+      "sourceType": "com.velen.etl.collections.dataflow.properties.ParseProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "parse.name",
+      "type": "java.lang.String",
+      "sourceType": "org.springframework.boot.context.ContextIdApplicationContextInitializer",
+      "description": "Application name."
+    }
+  ],
+  "hints": []
+}
