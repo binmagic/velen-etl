@@ -4,6 +4,7 @@ import com.velen.etl.entity.BusReceiverEntity;
 import com.velen.etl.service.BusReceiverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,6 +15,12 @@ public class BusReceiverController
 {
 	@Autowired
 	BusReceiverService busReceiverService;
+
+	@GetMapping("/execute/{sql}")
+	void execute(@PathVariable("sql") String sql)
+	{
+		busReceiverService.execute(sql);
+	}
 
 	@GetMapping("/test")
 	void test()

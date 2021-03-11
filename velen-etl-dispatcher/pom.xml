@@ -36,6 +36,12 @@
 				<version>${project.parent.version}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>com.github.binmagic</groupId>
+				<artifactId>spring-cloud-spark-rest-client</artifactId>
+				<version>0.0.2-SNAPSHOT</version>
+			</dependency>
+
 		</dependencies>
 	</dependencyManagement>
 

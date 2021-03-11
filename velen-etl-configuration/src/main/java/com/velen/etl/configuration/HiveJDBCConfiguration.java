@@ -17,8 +17,8 @@ import javax.sql.DataSource;
 
 
 @Configuration
-@ConfigurationProperties(prefix = "datasource.hive", ignoreInvalidFields = true)
-@ConditionalOnProperty(prefix="datasource.hive", name = "url")
+@ConfigurationProperties(prefix = "jdbc.hive", ignoreInvalidFields = true)
+@ConditionalOnProperty(prefix="jdbc.hive", name = "url")
 @Setter
 @Getter
 @RefreshScope

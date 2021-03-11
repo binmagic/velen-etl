@@ -1,16 +1,13 @@
 package com.velen.etl.verification.configuration;
 
-import com.velen.etl.verification.entity.VerifyEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.core.index.Indexed;
 
 @Configuration
 @ConfigurationProperties(prefix = "service.verification", ignoreInvalidFields = true)
@@ -30,7 +27,7 @@ public class VerificationConfiguration
 
 
 	// PROPERTY DEFINITION
-	@Value("${topic-property:top}")
+	/*@Value("${topic-property:top}")
 	private String topicProperty;
 	@Value("${verify-property:verify}")
 	private String verifyProperty;
@@ -48,6 +45,6 @@ public class VerificationConfiguration
 	@Value("${field-key-rule-property:key-rule}")
 	private String keyRuleProperty;
 	@Value("${value-value-rule-property:value-rule}")
-	private String valueRuleProperty;
+	private String valueRuleProperty;*/
 
 }

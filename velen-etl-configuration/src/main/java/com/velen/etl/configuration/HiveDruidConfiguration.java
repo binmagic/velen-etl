@@ -37,8 +37,8 @@ import javax.sql.DataSource;
  *     filters: stat
  */
 @Configuration
-@ConfigurationProperties(prefix = "datasource.hive", ignoreInvalidFields = true)
-@ConditionalOnProperty(prefix="datasource.hive", name = "url")
+@ConfigurationProperties(prefix = "durid.hive", ignoreInvalidFields = true)
+@ConditionalOnProperty(prefix="durid.hive", name = "url")
 @Setter
 @Getter
 @RefreshScope

@@ -28,6 +28,15 @@
 			<groupId>com.github.binmagic</groupId>
 			<artifactId>velen-etl-common</artifactId>
 		</dependency>-->
+
+		<!-- https://mvnrepository.com/artifact/org.apache.hive/hive-serde -->
+		<dependency>
+			<groupId>org.apache.hive</groupId>
+			<artifactId>hive-serde</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
 
 </project>

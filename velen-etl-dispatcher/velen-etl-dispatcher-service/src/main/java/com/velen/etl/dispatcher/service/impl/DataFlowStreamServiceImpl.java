@@ -160,6 +160,16 @@ public class DataFlowStreamServiceImpl implements DataFlowStreamService
 	}
 
 	@Override
+	public int status(String name)
+	{
+		StreamDeploymentResource resource = info(name);
+		if(resource == null)
+			return Status.UNDEPLOY.getRetCode();
+
+		return Status.parse(resource.getStatus()).getRetCode();
+	}
+
+	@Override
 	public boolean exist(String name)
 	{
 		assert name != null;

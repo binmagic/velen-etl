@@ -3,6 +3,7 @@ package com.velen.etl.configuration;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +14,8 @@ import com.alibaba.druid.pool.DruidDataSource;
 import javax.sql.DataSource;
 
 @Configuration
-@ConfigurationProperties(prefix = "datasource.hive", ignoreInvalidFields = true)
+@ConfigurationProperties(prefix = "durid.hive", ignoreInvalidFields = true)
+@ConditionalOnProperty(prefix="durid.hive", name = "url")
 @Setter
 @Getter
 public class HiveDruidConfiguration

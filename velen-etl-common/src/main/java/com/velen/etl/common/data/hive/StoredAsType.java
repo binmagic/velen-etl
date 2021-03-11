@@ -11,6 +11,7 @@ package com.velen.etl.common.data.hive;
  *   | JSONFILE    -- (Note: Available in Hive 4.0.0 and later)
  *   | INPUTFORMAT input_format_classname OUTPUTFORMAT output_format_classname
  */
+@Deprecated
 public enum StoredAsType implements FileFormat
 {
 	SEQUENCEFILE("org.apache.hadoop.mapred.SequenceFileInputFormat", "org.apache.hadoop.mapred.SequenceFileOutputFormat"),

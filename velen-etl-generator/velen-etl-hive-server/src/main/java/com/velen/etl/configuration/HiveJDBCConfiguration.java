@@ -1,8 +1,12 @@
 package com.velen.etl.configuration;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -11,6 +15,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import javax.sql.DataSource;
 
 @Configuration
+@ConfigurationProperties(prefix = "jdbc.hive", ignoreInvalidFields = true)
+@ConditionalOnProperty(prefix="jdbc.hive", name = "url")
+@Setter
+@Getter
 public class HiveJDBCConfiguration
 {
 	@Autowired

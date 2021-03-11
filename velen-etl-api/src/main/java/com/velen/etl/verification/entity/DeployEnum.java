@@ -3,6 +3,7 @@ package com.velen.etl.verification.entity;
 import java.util.HashMap;
 import java.util.Map;
 
+@Deprecated
 public interface DeployEnum
 {
 	int getKey();
@@ -10,6 +11,7 @@ public interface DeployEnum
 	/**
 	 * 统计平台类型
 	 */
+	@Deprecated
 	enum PlatformType implements DeployEnum
 	{
 		INVALID(0),
@@ -58,6 +60,7 @@ public interface DeployEnum
 	/**
 	 * 处理类型
 	 */
+	@Deprecated
 	enum ProcessType implements DeployEnum
 	{
 		INVALID(0),

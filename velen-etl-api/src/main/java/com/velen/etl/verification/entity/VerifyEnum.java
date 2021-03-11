@@ -3,6 +3,7 @@ package com.velen.etl.verification.entity;
 import java.util.HashMap;
 import java.util.Map;
 
+@Deprecated
 public interface VerifyEnum
 {
 	int getKey();
@@ -10,6 +11,7 @@ public interface VerifyEnum
 	/**
 	 * 接收字段的Key验证规则
 	 */
+	@Deprecated
 	enum FieldRuleType implements VerifyEnum
 	{
 		NONE(0),

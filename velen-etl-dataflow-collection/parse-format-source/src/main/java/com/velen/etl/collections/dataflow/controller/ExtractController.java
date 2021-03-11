@@ -70,7 +70,7 @@ public class ExtractController
 		}
 
 		if(list.isEmpty())
-			return ResponseEntity.status(ResultCode.INVALID_PARAMETERS).body("fail to formats!");
+			return ResponseEntity.status(ResultCode.INVALID_PARAMETERS.code()).body("fail to formats!");
 
 		this.parseFormatService.setInputParseFormats(list);
 

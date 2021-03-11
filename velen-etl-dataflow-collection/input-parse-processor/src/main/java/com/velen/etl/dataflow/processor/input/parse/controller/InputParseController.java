@@ -84,7 +84,7 @@ public class InputParseController
 		// check parameter
 
 		if(formats.isEmpty())
-			return ResponseEntity.status(ResultCode.INVALID_PARAMETERS).body("fail to formats!");
+			return ResponseEntity.status(ResultCode.INVALID_PARAMETERS.code()).body("fail to formats!");
 
 		// transferred meaning
 		for(Map.Entry<String, String> entry : formats.entrySet())

@@ -36,6 +36,7 @@
 		<module>input-parse-processor</module>
 		<module>assemble-meta-processor</module>
 		<module>meta-hive-sink</module>
+		<module>sql-hive-sink</module>
 	</modules>
 
 	<properties>

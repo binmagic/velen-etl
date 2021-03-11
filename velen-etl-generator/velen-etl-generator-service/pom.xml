@@ -27,10 +27,10 @@
 			<artifactId>velen-etl-common</artifactId>
 		</dependency>
 
-		<!--<dependency>
+		<dependency>
 			<groupId>com.github.binmagic</groupId>
 			<artifactId>velen-etl-configuration</artifactId>
-		</dependency>-->
+		</dependency>
 
 		<!--<dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -102,8 +102,8 @@
 		</dependency>
 
 		<!--<dependency>
-			<groupId>org.apache.tomcat</groupId>
-			<artifactId>tomcat-jdbc</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>-->
 
 		<!-- https://mvnrepository.com/artifact/com.alibaba/druid-spring-boot-starter -->

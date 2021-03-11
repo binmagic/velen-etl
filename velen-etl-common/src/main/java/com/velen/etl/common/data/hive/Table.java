@@ -14,6 +14,7 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Deprecated
 public class Table
 {
 	// [EXTERNAL]

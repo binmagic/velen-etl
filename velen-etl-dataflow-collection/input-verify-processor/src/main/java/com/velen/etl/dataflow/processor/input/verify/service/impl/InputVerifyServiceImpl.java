@@ -108,15 +108,15 @@ public class InputVerifyServiceImpl implements InputVerifyService
 					String name = entry.getKey();
 					String type = entry.getValue().getClass().getSimpleName();
 
-					tdos.add(new PropertyMetadataTDO(name, type, 0, false));
+					tdos.add(new PropertyMetadataTDO(name, type, "", 0));
 
 
 					//jsonObject.put(entry.getKey(), entry.getValue());
 				}
 			}
 
-			if(!tdos.isEmpty())
-				tableMetadataApi.updateTable(this.inputVerifyProperties.getAppId(), this.inputVerifyProperties.getBusiness(), tdos);
+			//if(!tdos.isEmpty())
+			//	tableMetadataApi.updateTable(this.inputVerifyProperties.getAppId(), this.inputVerifyProperties.getBusiness(), tdos);
 		}
 		else
 		{

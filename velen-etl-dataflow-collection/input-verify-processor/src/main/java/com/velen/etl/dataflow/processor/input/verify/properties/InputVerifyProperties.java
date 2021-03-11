@@ -50,7 +50,7 @@ public class InputVerifyProperties
 		private String name;
 		private String type;
 		private int index;
-		private boolean require; // 这个可能没啥用, 或是区分出来必验证的字段
+		//private boolean require; // 这个可能没啥用, 或是区分出来必验证的字段
 	}
 
 	private String appId;

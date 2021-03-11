@@ -26,6 +26,7 @@ import java.util.Map;
  *   | struct_type
  *   | union_type  -- (Note: Available in Hive 0.7.0 and later)
  */
+@Deprecated
 public enum DataType
 {
 	NONE(0, ""),

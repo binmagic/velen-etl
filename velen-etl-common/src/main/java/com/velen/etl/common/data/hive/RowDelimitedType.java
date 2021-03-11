@@ -7,6 +7,7 @@ package com.velen.etl.common.data.hive;
  *         [NULL DEFINED AS char]   -- (Note: Available in Hive 0.13 and later)
  *   | SERDE serde_name [WITH SERDEPROPERTIES (property_name=property_value, property_name=property_value, ...)]
  */
+@Deprecated
 public enum RowDelimitedType
 {
 	FIELDS,

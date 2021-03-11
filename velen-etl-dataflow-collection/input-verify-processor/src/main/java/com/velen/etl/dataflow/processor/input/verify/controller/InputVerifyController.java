@@ -123,7 +123,7 @@ public class InputVerifyController
 
 		for(PropertyMetadataTDO tdo : properties)
 		{
-			tmp.put(tdo.getName(), new InputVerifyProperties.Property(tdo.getName(), tdo.getType(), tdo.getIndex(), tdo.isRequire()));
+			tmp.put(tdo.getName(), new InputVerifyProperties.Property(tdo.getName(), tdo.getType(), tdo.getIndex()));
 		}
 
 		InputVerifyProperties props = this.inputVerifyService.setProperties(tmp);

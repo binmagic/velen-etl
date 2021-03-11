@@ -22,13 +22,36 @@ spring:
         file-extension: yml
         enable-remote-sync-config: true
 
+#  datasource:
+#    druid:
+#      url: jdbc:hive2://119.254.118.20:10000/default
+#      type: com.alibaba.druid.pool.DruidDataSource
+#      username: root
+#      #      password: sixmonth
+#      driver-class-name: org.apache.hive.jdbc.HiveDriver
+#      initial-size: 1
+#      min-idle: 1
+#      max-idle: 5
+#      max-active: 50
+#      max-wait: 10000
+#      time-between-eviction-runs-millis: 10000
+#      min-evictable-idle-time-millis: 300000
+#      validation-query: select 'x'
+#      test-while-idle: true
+#      test-on-borrow: false
+#      test-on-return: false
+#      pool-prepared-statements: true
+#      max-open-prepared-statements: 20
+#      filters: stat
+
   data:
     mongodb:
       database: velen-etl-generator
       host: 192.168.1.85
       port: 27017
 
-datasource:
+# 现在这个没配检测出来
+durid:
   hive:
     url: jdbc:hive2://119.254.118.20:10000/default
     type: com.alibaba.druid.pool.DruidDataSource
@@ -49,3 +72,10 @@ datasource:
     pool-prepared-statements: true
     max-open-prepared-statements: 20
     filters: stat
+
+
+meta:
+  hive:
+    url: thrift://192.168.1.30:9083
+    timeout: 10
+    location-uri: file:/user/hive/warehouse

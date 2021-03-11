@@ -55,7 +55,7 @@ public class EventTableController
 
 		if(op.isPresent())
 		{
-			return ResponseEntity.ok(ResultCode.TABLE_EXISTS);
+			return ResponseEntity.status(ResultCode.GENERATOR_TABLE_EXISTS.code()).body(id);
 		}
 
 		//EventMetadata metadata = this.eventMetadataRepository.insert(new EventMetadata(id, tableTDO.getProperties()));

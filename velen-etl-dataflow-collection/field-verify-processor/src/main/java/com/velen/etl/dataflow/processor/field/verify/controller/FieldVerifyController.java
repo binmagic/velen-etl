@@ -74,7 +74,7 @@ public class FieldVerifyController
 		// check parameter
 
 		if(fields.isEmpty())
-			return ResponseEntity.status(ResultCode.INVALID_PARAMETERS).body("fail to fields!");
+			return ResponseEntity.status(ResultCode.INVALID_PARAMETERS.code()).body("fail to fields!");
 
 		List<FieldVerifyProperties.Field> list = new ArrayList<>();
 		for(FieldRuleTDO o : fields)

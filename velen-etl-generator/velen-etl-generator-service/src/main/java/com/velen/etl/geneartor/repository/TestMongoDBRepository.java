@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Deprecated
 @Repository
 public interface TestMongoDBRepository extends MongoRepository<Test, String>
 {

@@ -1,0 +1,115 @@
+{
+  "groups": [
+    {
+      "name": "spring.cloud.spark.client",
+      "type": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties",
+      "sourceType": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties"
+    },
+    {
+      "name": "spring.cloud.spark.client.authentication",
+      "type": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties$Authentication",
+      "sourceType": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties",
+      "sourceMethod": "getAuthentication()"
+    },
+    {
+      "name": "spring.cloud.spark.client.authentication.basic",
+      "type": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties$Authentication$Basic",
+      "sourceType": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties$Authentication",
+      "sourceMethod": "getBasic()"
+    },
+    {
+      "name": "spring.cloud.spark.client.authentication.oauth2",
+      "type": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties$Authentication$Oauth2",
+      "sourceType": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties$Authentication",
+      "sourceMethod": "getOauth2()"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.cloud.spark.client.authentication.access-token",
+      "type": "java.lang.String",
+      "description": "OAuth2 Access Token.",
+      "sourceType": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties$Authentication"
+    },
+    {
+      "name": "spring.cloud.spark.client.authentication.basic.password",
+      "type": "java.lang.String",
+      "description": "The login password.",
+      "sourceType": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties$Authentication$Basic"
+    },
+    {
+      "name": "spring.cloud.spark.client.authentication.basic.username",
+      "type": "java.lang.String",
+      "description": "The login username.",
+      "sourceType": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties$Authentication$Basic"
+    },
+    {
+      "name": "spring.cloud.spark.client.authentication.client-id",
+      "type": "java.lang.String",
+      "description": "OAuth2 Client Id.",
+      "sourceType": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties$Authentication"
+    },
+    {
+      "name": "spring.cloud.spark.client.authentication.client-secret",
+      "type": "java.lang.String",
+      "description": "OAuth2 Client Secret.",
+      "sourceType": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties$Authentication"
+    },
+    {
+      "name": "spring.cloud.spark.client.authentication.oauth2.client-registration-id",
+      "type": "java.lang.String",
+      "sourceType": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties$Authentication$Oauth2"
+    },
+    {
+      "name": "spring.cloud.spark.client.authentication.oauth2.password",
+      "type": "java.lang.String",
+      "sourceType": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties$Authentication$Oauth2"
+    },
+    {
+      "name": "spring.cloud.spark.client.authentication.oauth2.username",
+      "type": "java.lang.String",
+      "sourceType": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties$Authentication$Oauth2"
+    },
+    {
+      "name": "spring.cloud.spark.client.authentication.scope",
+      "type": "java.util.Set<java.lang.String>",
+      "description": "OAuth2 Scopes.",
+      "sourceType": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties$Authentication"
+    },
+    {
+      "name": "spring.cloud.spark.client.authentication.token-uri",
+      "type": "java.lang.String",
+      "description": "OAuth2 Token Uri.",
+      "sourceType": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties$Authentication"
+    },
+    {
+      "name": "spring.cloud.spark.client.enable-dsl",
+      "type": "java.lang.Boolean",
+      "description": "Enable Data Flow DSL access.",
+      "sourceType": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "spring.cloud.spark.client.history-uri",
+      "type": "java.lang.String",
+      "description": "The Data Flow history server URI.",
+      "sourceType": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties",
+      "defaultValue": "http:\/\/localhost:18080"
+    },
+    {
+      "name": "spring.cloud.spark.client.external-uri",
+      "type": "java.lang.String",
+      "description": "The Data Flow external server URI.",
+      "sourceType": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties",
+      "defaultValue": "http:\/\/localhost:6060"
+    },
+    {
+      "name": "spring.cloud.spark.client.skip-ssl-validation",
+      "type": "java.lang.Boolean",
+      "description": "Skip Ssl validation.",
+      "sourceType": "org.springframework.cloud.spark.rest.client.config.SparkClientProperties",
+      "defaultValue": false
+    }
+  ],
+  "hints": []
+}

@@ -10,7 +10,8 @@ import java.net.UnknownHostException;
 
 @SpringBootApplication(scanBasePackages = {"com.velen.etl"})
 @EnableDiscoveryClient
-@EnableFeignClients(basePackageClasses = com.velen.etl.dispatcher.restful.api.DispatchApi.class)
+@EnableFeignClients(basePackageClasses = {com.velen.etl.dispatcher.restful.api.DispatchApi.class,
+		com.velen.etl.dispatcher.stream.api.InputVerifyApi.class})
 public class App
 {
 	public static void main(String[] args) throws UnknownHostException

@@ -1,21 +1,17 @@
 package com.velen.etl.verification.controller;
 
 import com.velen.etl.ResultCode;
-import com.velen.etl.dispatcher.restful.api.DispatchApi;
+import com.velen.etl.dispatcher.stream.api.FieldVerifyApi;
+import com.velen.etl.dispatcher.stream.api.InputParseApi;
+import com.velen.etl.dispatcher.stream.api.InputVerifyApi;
 import com.velen.etl.verification.configuration.VerificationConfiguration;
-import com.velen.etl.verification.entity.InputFieldRule;
-import com.velen.etl.verification.entity.InputParseFormat;
-import com.velen.etl.verification.entity.Project;
-import com.velen.etl.verification.properties.TestConfiguration;
-import com.velen.etl.verification.repository.InputFieldRuleRepository;
-import com.velen.etl.verification.repository.InputParseFormatRepository;
-import com.velen.etl.verification.repository.ProjectRepository;
-import com.velen.etl.verification.entity.VerifyEnum;
+import com.velen.etl.verification.entity.*;
+import com.velen.etl.verification.repository.ProjectAppRepository;
 import com.velen.etl.verification.tdo.FieldRuleTDO;
 import com.velen.etl.verification.tdo.ParseFormatTDO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.cloud.openfeign.FeignClientBuilder;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,26 +22,37 @@ import java.util.*;
 @RequestMapping("/project/verification")
 public class ProjectController
 {
-	@Autowired
-	private ProjectRepository projectRepository;
-	@Autowired
-	private InputFieldRuleRepository inputFieldRuleRepository;
-	@Autowired
-	private InputParseFormatRepository inputParseFormatRepository;
+	//@Autowired
+	//private ProjectRepository projectRepository;
+	//@Autowired
+	//private InputFieldRuleRepository inputFieldRuleRepository;
+	//@Autowired
+	//private InputParseFormatRepository inputParseFormatRepository;
 
 	//@Autowired
 	//private NacosConfigService nacosConfigService;
-	@Autowired
-	private TestConfiguration testConfiguration;
+	//@Autowired
+	//private TestConfiguration testConfiguration;
 
 	@Autowired
-	private DispatchApi dispatchApi;
+	private ProjectAppRepository projectAppRepository;
+
+	//@Autowired
+	//private DispatchApi dispatchApi;
+	//@Autowired
+	//private InputVerifyApi inputVerifyApi;
+	FeignClientBuilder feignClientBuilder;
 
 	// TODO: 这个也许需要 ProjectConfiguration
 	//@Value("${project.restful}")
 	//private boolean restful = true;
 	@Autowired
 	private VerificationConfiguration verificationConfiguration;
+
+	public ProjectController(@Autowired ApplicationContext appContext)
+	{
+		this.feignClientBuilder = new FeignClientBuilder(appContext);
+	}
 
 	/**
 	 * 测试用
@@ -55,12 +62,12 @@ public class ProjectController
 	{
 		System.out.println(verificationConfiguration.getRestful());
 
-		List<InputParseFormat> inputParseFormats = this.inputParseFormatRepository.withQueryFindByProjectId("a");
+		//List<InputParseFormat> inputParseFormats = this.inputParseFormatRepository.withQueryFindByProjectId("a");
 
 		//this.inputParseFormatRepository.withQueryDeleteAllByProjectId("a");
 
-		this.inputParseFormatRepository.insert(new InputParseFormat(new Random().nextInt(), "a", VerifyEnum.InputParseType.NONE, "", ""));
-		this.inputParseFormatRepository.insert(new InputParseFormat(new Random().nextInt(), "a", VerifyEnum.InputParseType.NONE, "", ""));
+		//this.inputParseFormatRepository.insert(new InputParseFormat(new Random().nextInt(), "a", VerifyEnum.InputParseType.NONE, "", ""));
+		//this.inputParseFormatRepository.insert(new InputParseFormat(new Random().nextInt(), "a", VerifyEnum.InputParseType.NONE, "", ""));
 
 
 		//projectRepository.insert(new Project(arg, true, ""));
@@ -71,28 +78,25 @@ public class ProjectController
 	 * 创建项目(也用于属性更新)
 	 */
 	@PostMapping("/create")
-	ResponseEntity create(@RequestParam("appId") String appId, @RequestParam("topic") String topic, @RequestParam("verify") Boolean verify,
+	ResponseEntity create(@RequestParam("appId") String appId, @RequestParam("verify") Boolean verify,
 	                      @RequestParam("operator") String operator)
 	{
 		// uncheck parameters
 
-		Optional<Project> op = projectRepository.findById(appId);
+		Optional<ProjectApp> op = projectAppRepository.findById(appId);
 
 		if(op.isPresent())
 		{
-			projectRepository.deleteById(appId);
+			return ResponseEntity.status(ResultCode.VERIFICATION_PROJECT_EXISTS.code()).body(appId);
 		}
 
-		//if(projectRepository.existsById(appId))
-		//	return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-
-		Project project = projectRepository.insert(new Project(appId, topic, verify, /*"", "DEFAULT-GROUP", */operator));
+		ProjectApp project = projectAppRepository.insert(new ProjectApp(appId, verify, operator));
 
 		// deploy stream
-		Map<String, String> properties = new HashMap<>();
-		properties.put(verificationConfiguration.getTopicProperty(), topic);
-		properties.put(verificationConfiguration.getVerifyProperty(), Boolean.toString(verify));
-		dispatchApi.deployStream(appId, "", properties);
+		//Map<String, String> properties = new HashMap<>();
+		//properties.put(verificationConfiguration.getTopicProperty(), topic);
+		//properties.put(verificationConfiguration.getVerifyProperty(), Boolean.toString(verify));
+		//dispatchApi.deployStream(appId, "", properties);
 
 		/*try
 		{
@@ -121,7 +125,66 @@ public class ProjectController
 	}
 
 	/**
-	 * 设置输入流的解释方式(也用于属性更新)
+	 * 删除项目
+	 */
+	@PostMapping("/destroy")
+	ResponseEntity destroy(@RequestParam("appId") String appId)
+	{
+		Optional<ProjectApp> op = this.projectAppRepository.findById(appId);
+
+		if(op.isPresent())
+		{
+			return ResponseEntity.status(ResultCode.VERIFICATION_PROJECT_NOT_EXISTS.code()).body(appId);
+		}
+
+		ProjectApp projectApp = op.get();
+		assert projectApp != null;
+
+		this.projectAppRepository.delete(projectApp);
+
+		return ResponseEntity.ok(projectApp);
+	}
+
+	/**
+	 * 设置校验模式
+	 */
+	@PostMapping("/set-verify")
+	ResponseEntity setVerify(@RequestParam("appId") String appId, @RequestParam("verify") Boolean verify, @RequestParam("operator") String operator)
+	{
+		// uncheck parameters
+
+		Optional<ProjectApp> op = this.projectAppRepository.findById(appId);
+
+		if(!op.isPresent())
+		{
+			return ResponseEntity.status(ResultCode.VERIFICATION_PROJECT_NOT_EXISTS.code()).body(appId);
+		}
+
+		ProjectApp projectApp = op.get();
+		assert projectApp != null;
+
+		//if(projectRepository.existsById(appId))
+		//	return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
+		projectApp.setVerify(verify);
+		projectApp.setLastTimeOperator(operator);
+
+		InputVerifyApi fc = this.feignClientBuilder.forType(InputVerifyApi.class, InputVerifyApi.makeId(appId)).build();
+		// make the call
+		fc.setVerify(verify);
+
+		projectApp = projectAppRepository.save(projectApp);
+
+		// deploy stream
+		//Map<String, String> properties = new HashMap<>();
+		//properties.put(verificationConfiguration.getTopicProperty(), "");
+		//properties.put(verificationConfiguration.getVerifyProperty(), Boolean.toString(verify));
+
+		return ResponseEntity.ok(projectApp);
+	}
+
+	/**
+	 * 设置输入流的解释方式
 	 */
 	@PostMapping("/set-input-parse")
 	ResponseEntity setInputParse(@RequestParam("appId") String appId
@@ -129,6 +192,32 @@ public class ProjectController
 			, @RequestParam("operator") String operator)
 	{
 		// uncheck parameters
+
+		Optional<ProjectApp> op = this.projectAppRepository.findById(appId);
+
+		if(op.isPresent())
+		{
+			return ResponseEntity.status(ResultCode.VERIFICATION_PROJECT_NOT_EXISTS.code()).body(appId);
+		}
+
+		ProjectApp projectApp = op.get();
+		assert projectApp != null;
+
+		projectApp.clearInputParseFormat();
+		for(ParseFormatTDO tdo : parseFormatsTDO)
+		{
+			projectApp.putInputParseFormat(tdo.getIndex(), tdo.getInputParseType(), tdo.getFormula());
+		}
+
+		projectApp.setLastTimeOperator(operator);
+
+		InputParseApi fc = this.feignClientBuilder.forType(InputParseApi.class, InputParseApi.makeId(appId)).build();
+		// make the call
+		fc.setFormats(parseFormatsTDO);
+
+		projectApp = projectAppRepository.save(projectApp);
+
+		/*
 
 		List<InputParseFormat> inputParseFormats = this.inputParseFormatRepository.withQueryFindByProjectId(appId);
 		for(InputParseFormat o : inputParseFormats)
@@ -142,16 +231,16 @@ public class ProjectController
 			inputParseFormats.add(new InputParseFormat(tdo.getIndex(), appId, tdo.getInputParseType(), tdo.getFormula()
 			, operator));
 		}
-		inputParseFormatRepository.insert(inputParseFormats);
+		inputParseFormatRepository.insert(inputParseFormats);*/
 
 		//if(!nacosConfigService.updateParseFormats(appId, "", "", inputParseFormats))
 		//	return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(projectApp);
 	}
 
 	/**
-	 * 设置字段入库规则(也用于属性更新)
+	 * 设置字段入库规则
 	 */
 	@PostMapping("/set-field-rule")
 	ResponseEntity setFieldRule(@RequestParam("appId") String appId
@@ -159,7 +248,32 @@ public class ProjectController
 			, @RequestParam("operator") String operator)
 	{
 
-		List<InputFieldRule> inputFieldRules = this.inputFieldRuleRepository.withQueryFindByProjectId(appId);
+		// uncheck parameters
+
+		Optional<ProjectApp> op = this.projectAppRepository.findById(appId);
+
+		if(op.isPresent())
+		{
+			return ResponseEntity.status(ResultCode.VERIFICATION_PROJECT_NOT_EXISTS.code()).body(appId);
+		}
+
+		ProjectApp projectApp = op.get();
+		assert projectApp != null;
+
+		projectApp.clearInputFieldRule();
+		for(FieldRuleTDO tdo : fieldRulesTDO)
+		{
+			projectApp.putInputFieldRule(tdo.getFieldName(), tdo.getKeyRuleType(), tdo.getKeyRule(), tdo.getValueRule());
+		}
+		projectApp.setLastTimeOperator(operator);
+
+		FieldVerifyApi fc = this.feignClientBuilder.forType(FieldVerifyApi.class, FieldVerifyApi.makeId(appId)).build();
+		// make the call
+		fc.setFields(fieldRulesTDO);
+
+		projectApp = projectAppRepository.save(projectApp);
+
+		/*List<InputFieldRule> inputFieldRules = this.inputFieldRuleRepository.withQueryFindByProjectId(appId);
 		for(InputFieldRule o : inputFieldRules)
 		{
 			this.inputFieldRuleRepository.delete(o);
@@ -170,24 +284,71 @@ public class ProjectController
 		{
 			inputFieldRules.add(new InputFieldRule(tdo.getFieldName(), appId, tdo.getKeyRuleType(), tdo.getKeyRule(), tdo.getValueRule(), operator));
 		}
-		this.inputFieldRuleRepository.insert(inputFieldRules);
+		this.inputFieldRuleRepository.insert(inputFieldRules);*/
 
 		//if(!nacosConfigService.updateFieldRules(inputFieldRules))
 		//	return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
 
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(projectApp);
 	}
 
 	/**
 	 * 设置规则
 	 */
 	@PostMapping("/settle")
-	ResponseEntity settle(@RequestParam("appId") String appId, @RequestParam("topic") String topic, @RequestParam("verify") Boolean verify
+	ResponseEntity settle(@RequestParam("appId") String appId, @RequestParam("verify") Boolean verify
 			, @RequestParam("formats") List<ParseFormatTDO> parseFormatsTDO, @RequestParam("fields") List<FieldRuleTDO> fieldRulesTDO
 			, @RequestParam("operator") String operator)
 	{
-		throw new UnsupportedOperationException("/project/verification/settle");
+		Optional<ProjectApp> op = this.projectAppRepository.findById(appId);
+
+		if(op.isPresent())
+		{
+			return ResponseEntity.status(ResultCode.VERIFICATION_PROJECT_NOT_EXISTS.code()).body(appId);
+		}
+
+		ProjectApp projectApp = op.get();
+		assert projectApp != null;
+
+		//if(projectRepository.existsById(appId))
+		//	return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
+		projectApp.setVerify(verify);
+
+		for(FieldRuleTDO tdo : fieldRulesTDO)
+		{
+			projectApp.putInputFieldRule(tdo.getFieldName(), tdo.getKeyRuleType(), tdo.getKeyRule(), tdo.getValueRule());
+		}
+
+		for(ParseFormatTDO tdo : parseFormatsTDO)
+		{
+			projectApp.putInputParseFormat(tdo.getIndex(), tdo.getInputParseType(), tdo.getFormula());
+		}
+
+		projectApp.setLastTimeOperator(operator);
+
+		{
+			InputParseApi fc = this.feignClientBuilder.forType(InputParseApi.class, InputParseApi.makeId(appId)).build();
+			// make the call
+			fc.setFormats(parseFormatsTDO);
+		}
+
+		{
+			InputVerifyApi fc = this.feignClientBuilder.forType(InputVerifyApi.class, InputVerifyApi.makeId(appId)).build();
+			// make the call
+			fc.setVerify(verify);
+		}
+
+		{
+			FieldVerifyApi fc = this.feignClientBuilder.forType(FieldVerifyApi.class, FieldVerifyApi.makeId(appId)).build();
+			// make the call
+			fc.setFields(fieldRulesTDO);
+		}
+
+		projectApp = projectAppRepository.save(projectApp);
+
+		return ResponseEntity.ok(projectApp);
 	}
 
 	/**
@@ -214,7 +375,7 @@ public class ProjectController
 	{
 		// uncheck parameters
 
-		Optional<Project> op = projectRepository.findById(appId);
+		/*Optional<Project> op = projectRepository.findById(appId);
 
 		if(!op.isPresent())
 			return ResponseEntity.status(ResultCode.PROJECT_EXISTS).build();
@@ -254,10 +415,10 @@ public class ProjectController
 
 		}
 
-		return dispatchApi.deployStream(appId, procedure, properties);
+		return dispatchApi.deployStream(appId, procedure, properties);*/
 
 		//return dispatchApi.deploy(id, type);
-		//return ResponseEntity.ok().build();
+		return ResponseEntity.ok().build();
 	}
 
 	/**

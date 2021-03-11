@@ -46,6 +46,11 @@ spring:
       client:
         server-uri: http://192.168.1.30:9393
 
+    spark:
+      client:
+        external-uri: http://192.168.1.30:6066
+        history-uri: http://192.168.1.30:18080
+
 service:
   dispatcher:
     name: test

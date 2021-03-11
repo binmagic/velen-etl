@@ -2,4 +2,4 @@ spring:
   profiles:
     active: @profile.active@
   application:
-    name: velen-etl-verfication
+    name: velen-etl-verification

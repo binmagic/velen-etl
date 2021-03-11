@@ -1,6 +1,7 @@
 package com.velen.etl.geneartor.entity;
 
 import lombok.*;
+import org.apache.hadoop.hive.metastore.api.FieldSchema;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Objects;
@@ -12,19 +13,19 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document
-public class PropertyMetadata
+public class ColumnMetadata
 {
 	private String name;
 	private String type;
+	private String comment;
 	private int index;
-	private boolean require;
 
 	@Override
 	public boolean equals(Object o)
 	{
 		if(this == o) return true;
 		if(o == null || getClass() != o.getClass()) return false;
-		PropertyMetadata that = (PropertyMetadata)o;
+		ColumnMetadata that = (ColumnMetadata)o;
 		return Objects.equals(name, that.name);
 	}
 
@@ -32,5 +33,10 @@ public class PropertyMetadata
 	public int hashCode()
 	{
 		return Objects.hash(name);
+	}
+
+	public FieldSchema toFieldSchema()
+	{
+		return new FieldSchema(this.name, this.getType(), "");
 	}
 }

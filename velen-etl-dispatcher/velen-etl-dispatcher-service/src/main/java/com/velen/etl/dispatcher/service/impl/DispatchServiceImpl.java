@@ -5,6 +5,7 @@ import com.velen.etl.verification.entity.DeployEnum;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+@Deprecated
 @Service
 public class DispatchServiceImpl implements DispatchService
 {

@@ -14,8 +14,8 @@ public class PropertyMetadataTDO
 {
 	private String name;
 	private String type; // 匹配 hive 类型
+	private String comment;
 	private int index; // 列的索引, 这样这个有点小问题, 要是按表，需要做表解析
-	private boolean require;
 
 	@Override
 	public boolean equals(Object o)

@@ -1,6 +1,6 @@
 package com.velen.etl.verification.tdo;
 
-import com.velen.etl.verification.entity.VerifyEnum;
+import com.velen.etl.verification.entity.InputParseType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +18,7 @@ import java.util.Objects;
 public class ParseFormatTDO
 {
 	private Integer index;
-	private VerifyEnum.InputParseType inputParseType;
+	private InputParseType inputParseType;
 	private String formula;
 
 	@Override

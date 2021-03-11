@@ -19,6 +19,11 @@ public class BusReceiverService
 	@Autowired
 	JdbcTemplate hiveJdbcTemplate;
 
+	public void execute(String sql)
+	{
+		hiveJdbcTemplate.execute(sql);
+	}
+
 	//@PostConstruct
 	public void createTable() {
 		StringBuffer sql = new StringBuffer("create table IF NOT EXISTS ");
